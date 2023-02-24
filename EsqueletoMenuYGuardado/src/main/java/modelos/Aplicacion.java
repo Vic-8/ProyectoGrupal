@@ -23,7 +23,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 
-///https://www.youtube.com/watch?v=mViRDVhLcnI&t=57s
+///https://www.youtube.com/watch?v=mViRDVhLcnI&t=57s : Esta es la fuente de la guia, el paso a paso
 
 public class Aplicacion {
 	private static final String FACTURAS = "facturas";
