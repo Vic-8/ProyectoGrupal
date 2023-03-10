@@ -37,7 +37,11 @@ public class Proyecto {
                 opcion = Integer.parseInt(JOptionPane.showInputDialog(texto));
                 switch (opcion) {
                     case 1 -> {
-                   
+                        
+                        // Pablo  /Add counter MAX:5
+                        Registros desarrollador = new Registros();
+                        desarrollador.agregarDesarrollador();
+                        
                         continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú principal? ", "WARNING", JOptionPane.YES_NO_OPTION);
                         if (continuar == JOptionPane.YES_OPTION) {
                             valido = "x";

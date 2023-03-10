@@ -15,6 +15,7 @@ public class Registros {
     //CREACION DE LOS ARRAYLISTS
     ArrayList<Requerimiento> listadoRequerimientos = new ArrayList();
     ArrayList<Iteracion> listadoIteraciones = new ArrayList();
+    ArrayList<Desarrollador> listadoDesarrolladores = new ArrayList();
 
     //INICIO METODOS REQUERIMIENTOS
     
@@ -62,4 +63,26 @@ public class Registros {
         }
         JOptionPane.showMessageDialog(null, almacenar);
     }
+        
+        
+        
+        // Pablo
+        //INICIO METODOS PARA DESARROLLADORES
+    
+       public void agregarDesarrollador() {
+        Desarrollador desarrollador = new Desarrollador();
+        desarrollador.registroDesarrollador();
+        listadoDesarrolladores.add(desarrollador);
+    }
+        // Add to main PENDING!!
+        public void leerDesarrollador() {
+        String almacenar = "";
+        for (int i = 0; i < listadoDesarrolladores.size(); i++) {
+            almacenar += "ID desarrollador: " + listadoDesarrolladores.get(i).getIdDesarrollador()+ "\n"
+                    + "Nombre: " + listadoDesarrolladores.get(i).getNombreDesarrollador()+ "\n"
+                    + "Siglas: " + listadoDesarrolladores.get(i).getSiglasDesarrollador()+"\n";
+        }
+        JOptionPane.showMessageDialog(null, almacenar);
+    }
+        
 }
