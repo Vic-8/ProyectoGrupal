@@ -105,7 +105,8 @@ public class Registros {
         for (int i = 0; i < listadoDesarrolladores.size(); i++) {
             almacenar += "ID desarrollador: " + listadoDesarrolladores.get(i).getIdDesarrollador()+ "\n"
                     + "Nombre: " + listadoDesarrolladores.get(i).getNombreDesarrollador()+ "\n"
-                    + "Siglas: " + listadoDesarrolladores.get(i).getSiglasDesarrollador()+"\n";
+                    + "Siglas: " + listadoDesarrolladores.get(i).getSiglasDesarrollador()+"\n"
+                    + "Costo por día: "+listadoDesarrolladores.get(i).getCostoDiario();
         }
         JOptionPane.showMessageDialog(null, almacenar);
     }

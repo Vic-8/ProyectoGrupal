@@ -37,7 +37,7 @@ public class Desarrollador {
     public Desarrollador() {
     }
     
-    //Crear desarrollador
+    //METODO CREAR DESARROLLADOR
     public void registroDesarrollador() {
         this.idDesarrollador = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el id del desarrollador: ")); 
         //PENDIENTE CREAR EL ID DESARROLLADOR AUTOMATICO, PORQUE DICE ASIGNARLE NO SOLICITARLE
@@ -50,7 +50,7 @@ public class Desarrollador {
         this.costoDiario = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el costo por dia del desarrollador: "));     // PENDING!!
         
         String text = (this.nombreDesarrollador+" "+this.siglasDesarrollador)+" "+this.idDesarrollador; // Todo junto (casi)
-        JOptionPane.showMessageDialog(null, text);                                   // Temporal / Para pruebas
+        JOptionPane.showMessageDialog(null, text);                                   // MOSTRAR LA INFORMACION, ES PARA PRUEBAS
     }
     
     //Getter & Setter

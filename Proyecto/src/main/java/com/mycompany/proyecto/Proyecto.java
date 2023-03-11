@@ -116,7 +116,13 @@ public class Proyecto {
                         }
                     }
                     case 4 -> {
+                        JOptionPane.showMessageDialog(null, "OPCION USADA PARA PRUEBAS POR EL MOMENTO");
+                        JOptionPane.showMessageDialog(null, "MOSTRANDO REQUERIMIENTOS");
+                        requerimientos.leerRequerimiento();
+                        JOptionPane.showMessageDialog(null, "MOSTRANDO ITERACIONES");
                         iteracion.leerIteracion();
+                        JOptionPane.showMessageDialog(null, "MOSTRANDO DESARROLLADOR");
+                        desarrollador.leerDesarrollador();
                         continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú principal? ", "WARNING", JOptionPane.YES_NO_OPTION);
                         if (continuar == JOptionPane.YES_OPTION) {
                             valido = "x";
