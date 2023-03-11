@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 public class Desarrollador {
     
     //AT
-    private String idDesarrollador;                    // ID (0021)
+    private int idDesarrollador;                    // ID (0021)
     private String primerNombreDesarrollador;       // Nombre(Pablo)
     private String primerApellidoDesarrollador;     // Apellido 1 (Mendez)
     private String segundoApellidoDesarrollador;    // Apellodp 2 (Hidalgo)
@@ -25,7 +25,7 @@ public class Desarrollador {
 
     
     //Constructor
-    public Desarrollador(String idDesarrollador, String primerNombreDesarrollador, String primerApellidoDesarrollador, String segundoApellidoDesarrollador, String nombreDesarrollador, String siglasDesarrollador, int costoDiario) {
+    public Desarrollador(int idDesarrollador, String primerNombreDesarrollador, String primerApellidoDesarrollador, String segundoApellidoDesarrollador, String nombreDesarrollador, String siglasDesarrollador, int costoDiario) {
         this.idDesarrollador = idDesarrollador;
         this.primerNombreDesarrollador = primerNombreDesarrollador;
         this.primerApellidoDesarrollador = primerApellidoDesarrollador;
@@ -39,29 +39,26 @@ public class Desarrollador {
     
     //Crear desarrollador
     public void registroDesarrollador() {
-        this.idDesarrollador = JOptionPane.showInputDialog("Ingrese el id del desarrollador: ");
-        //while (si ya existe el id ingresado: repetir)    // PENDING!!
+        this.idDesarrollador = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el id del desarrollador: ")); 
+        //PENDIENTE CREAR EL ID DESARROLLADOR AUTOMATICO, PORQUE DICE ASIGNARLE NO SOLICITARLE
         
         this.primerNombreDesarrollador = JOptionPane.showInputDialog("Ingrese el primer nombre del desarrollador: ");
         this.primerApellidoDesarrollador = JOptionPane.showInputDialog("Ingrese el primer apellido del desarrollador: ");
         this.segundoApellidoDesarrollador = JOptionPane.showInputDialog("Ingrese el segundo apellido del desarrollador: ");
-        
         this.nombreDesarrollador = (this.primerNombreDesarrollador+" "+this.primerApellidoDesarrollador+" "+ this.segundoApellidoDesarrollador);
-        
         this.siglasDesarrollador = (this.primerNombreDesarrollador.substring(0, 1).toUpperCase()+this.primerApellidoDesarrollador.substring(0, 1).toUpperCase()+ this.segundoApellidoDesarrollador.substring(0, 1).toUpperCase());
-        
-        this.costoDiario = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el costo por dia de ??: "));     // PENDING!!
+        this.costoDiario = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el costo por dia del desarrollador: "));     // PENDING!!
         
         String text = (this.nombreDesarrollador+" "+this.siglasDesarrollador)+" "+this.idDesarrollador; // Todo junto (casi)
         JOptionPane.showMessageDialog(null, text);                                   // Temporal / Para pruebas
     }
     
     //Getter & Setter
-    public String getIdDesarrollador() {
+    public int getIdDesarrollador() {
         return idDesarrollador;
     }
 
-    public void setIdDesarrollador(String idDesarrollador) {
+    public void setIdDesarrollador(int idDesarrollador) {
         this.idDesarrollador = idDesarrollador;
     }
 

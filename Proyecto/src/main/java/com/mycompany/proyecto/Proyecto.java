@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
- *
+ *     
  * @author victo
  */
 public class Proyecto {
@@ -14,12 +14,13 @@ public class Proyecto {
     public static void main(String[] args) {
        Registros requerimientos = new Registros();
        Registros iteracion = new Registros();
-       menu(requerimientos, iteracion); 
+       Registros desarrollador = new Registros();
+       menu(requerimientos, iteracion, desarrollador); 
         
     }
    
     
-    public static void menu(Registros requerimientos, Registros iteracion){
+    public static void menu(Registros requerimientos, Registros iteracion, Registros desarrollador){
         String texto;
         String valido = "x";
         int opcion = 0;
@@ -37,11 +38,24 @@ public class Proyecto {
                 opcion = Integer.parseInt(JOptionPane.showInputDialog(texto));
                 switch (opcion) {
                     case 1 -> {
-                        
-                        // Pablo  /Add counter MAX:5
-                        Registros desarrollador = new Registros();
-                        desarrollador.agregarDesarrollador();
-                        
+                        int nuevo=0;
+                        while (nuevo==0){
+                            if (Desarrollador.numeroDesarrolladores<50){
+                                desarrollador.agregarDesarrollador();
+                                Desarrollador.numeroDesarrolladores++;
+                            } else {
+                               JOptionPane.showMessageDialog(null, "Lo sentimos, no se pueden agregar más desarrolladores");
+                               nuevo=1; 
+                            }
+                            nuevo = JOptionPane.showConfirmDialog(null, "Desea agregar otro desarrollador? ");
+                            if (nuevo == JOptionPane.NO_OPTION) {
+                                nuevo = 1;
+                                Desarrollador.numeroDesarrolladores = Desarrollador.numeroDesarrolladores;
+                            } else {
+                                nuevo = 0;
+                                Desarrollador.numeroDesarrolladores = Desarrollador.numeroDesarrolladores;
+                            }
+                        }
                         continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú principal? ", "WARNING", JOptionPane.YES_NO_OPTION);
                         if (continuar == JOptionPane.YES_OPTION) {
                             valido = "x";

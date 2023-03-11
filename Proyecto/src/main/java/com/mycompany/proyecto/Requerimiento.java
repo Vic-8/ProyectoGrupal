@@ -4,6 +4,9 @@ package com.mycompany.proyecto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
+
+//AUTORES ARIANA FALLAS Y JOSE PABLO RAYGADA
+
 public class Requerimiento {
 //Declaracion de atributos
 
@@ -13,7 +16,7 @@ public class Requerimiento {
     private int nuevo = 0; //usada para validar el while
     public static int numeroRequerimientos = 0; //usada como contador
     private Estado estado;
-    private Requerimiento requerimientos[]=new Requerimiento[50];
+
 
 //Constructores
     public Requerimiento(int idRequerimiento, String nombreRequerimiento, int esfuerzoNecesario, Estado estado) {
@@ -64,15 +67,7 @@ public class Requerimiento {
     public int getNumeroRequerimientos() {
         return numeroRequerimientos;
     }
-
-    public Requerimiento[] getRequerimientos() {
-        return requerimientos;
-    }
-
-    public void setRequerimientos(Requerimiento[] requerimientos) {
-        this.requerimientos = requerimientos;
-    }
-
+    
     public Estado getEstado() {
         return estado;
     }

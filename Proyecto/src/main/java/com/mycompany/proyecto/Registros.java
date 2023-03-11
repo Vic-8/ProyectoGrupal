@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
  */
 public class Registros {
 
-    //ESTA CLASE ES UTILIZADA UNICAMENTE PARA LA CREACION, ALMACENAMIENTO, ELIMINACION Y LECTURA DE REQUERIMIENTOS E ITERACIONES
+    //ESTA CLASE ES UTILIZADA UNICAMENTE PARA LA CREACION, ALMACENAMIENTO, ELIMINACION Y LECTURA DE REQUERIMIENTOS, ITERACIONES Y DESARROLLADORES
    
     //CREACION DE LOS ARRAYLISTS
     ArrayList<Requerimiento> listadoRequerimientos = new ArrayList();
@@ -22,6 +22,14 @@ public class Registros {
     public void agregarRequerimiento() {
         Requerimiento requerimiento = new Requerimiento();
         requerimiento.registroRequerimiento();
+        for (int i = 0; i < listadoRequerimientos.size(); i++) {
+            if (requerimiento.getIdRequerimiento() == listadoRequerimientos.get(i).getIdRequerimiento()) {
+                while (requerimiento.getIdRequerimiento() == listadoRequerimientos.get(i).getIdRequerimiento()) {
+                    JOptionPane.showMessageDialog(null, "Lo sentimos, ya existe un requerimiento creado asociado al ID de requerimiento ingresado");
+                    requerimiento.registroRequerimiento();
+                }
+            }
+        }
         listadoRequerimientos.add(requerimiento);
     }
 
@@ -52,8 +60,17 @@ public class Registros {
        public void agregarIteracion() {
         Iteracion iteracion = new Iteracion();
         iteracion.registroIteracion();
+        for (int i = 0; i < listadoIteraciones.size(); i++) {
+            if (iteracion.getIdIteracion() == listadoIteraciones.get(i).getIdIteracion()) {
+                while (iteracion.getIdIteracion() == listadoIteraciones.get(i).getIdIteracion()) {
+                    JOptionPane.showMessageDialog(null, "Lo sentimos, ya existe una iteración asociada a ese ID de iteración.");
+                    iteracion.registroIteracion();
+                }
+            }
+        }
         listadoIteraciones.add(iteracion);
     }
+       
         public void leerIteracion() {
         String almacenar = "";
         for (int i = 0; i < listadoIteraciones.size(); i++) {
@@ -72,6 +89,14 @@ public class Registros {
        public void agregarDesarrollador() {
         Desarrollador desarrollador = new Desarrollador();
         desarrollador.registroDesarrollador();
+        for (int i = 0; i < listadoDesarrolladores.size(); i++) {
+            if (desarrollador.getIdDesarrollador() == listadoDesarrolladores.get(i).getIdDesarrollador()) {
+                while (desarrollador.getIdDesarrollador() == listadoDesarrolladores.get(i).getIdDesarrollador()) {
+                    JOptionPane.showMessageDialog(null, "Lo sentimos, ya existe un= desarrollador con ese ID.");
+                    desarrollador.registroDesarrollador();
+                }
+            }
+        }
         listadoDesarrolladores.add(desarrollador);
     }
         // Add to main PENDING!!
