@@ -42,9 +42,6 @@ public class CsvUtils {
         return id;
     }
 
-//    private String getDefaultPath() {
-//        return new File(".").getAbsolutePath();
-//    }
 
     private boolean fileExists(String nombreArchivo) {
         File f = new File(nombreArchivo);
