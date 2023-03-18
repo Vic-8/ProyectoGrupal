@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
  */
 public class Registros {
 
-    //ESTA CLASE ES UTILIZADA UNICAMENTE PARA LA CREACION, ALMACENAMIENTO, ELIMINACION Y LECTURA DE REQUERIMIENTOS, ITERACIONES Y DESARROLLADORES
+    //ESTA CLASE ES UTILIZADA UNICAMENTE PARA LA CREACION, ALMACENAMIENTO, ELIMINACION Y LECTURA DE REQUERIMIENTOS, ITERACIONES Y DESARROLLADORES  // algo mas?
    
     //CREACION DE LOS ARRAYLISTS
     ArrayList<Requerimiento> listadoRequerimientos = new ArrayList();
@@ -87,16 +87,11 @@ public class Registros {
         //INICIO METODOS PARA DESARROLLADORES
     
        public void agregarDesarrollador() {
+        var repositorio = new DesarrolladorRepositorio();
         Desarrollador desarrollador = new Desarrollador();
         desarrollador.registroDesarrollador();
-        for (int i = 0; i < listadoDesarrolladores.size(); i++) {
-            if (desarrollador.getIdDesarrollador() == listadoDesarrolladores.get(i).getIdDesarrollador()) {
-                while (desarrollador.getIdDesarrollador() == listadoDesarrolladores.get(i).getIdDesarrollador()) {
-                    JOptionPane.showMessageDialog(null, "Lo sentimos, ya existe un= desarrollador con ese ID.");
-                    desarrollador.registroDesarrollador();
-                }
-            }
-        }
+        var id = repositorio.guardar(desarrollador);
+        desarrollador.setIdDesarrollador(id);
         listadoDesarrolladores.add(desarrollador);
     }
         // Add to main PENDING!!

@@ -1,5 +1,4 @@
 package com.mycompany.proyecto;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 /**
  *
@@ -39,9 +38,6 @@ public class Desarrollador {
     
     //METODO CREAR DESARROLLADOR
     public void registroDesarrollador() {
-        this.idDesarrollador = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el id del desarrollador: ")); 
-        //PENDIENTE CREAR EL ID DESARROLLADOR AUTOMATICO, PORQUE DICE ASIGNARLE NO SOLICITARLE
-        
         this.primerNombreDesarrollador = JOptionPane.showInputDialog("Ingrese el primer nombre del desarrollador: ");
         this.primerApellidoDesarrollador = JOptionPane.showInputDialog("Ingrese el primer apellido del desarrollador: ");
         this.segundoApellidoDesarrollador = JOptionPane.showInputDialog("Ingrese el segundo apellido del desarrollador: ");

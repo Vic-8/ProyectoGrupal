@@ -33,7 +33,7 @@ public class Proyecto {
                 + "\n(4)=> Asignación de trabajo."
                 + "\n(5)=> Ver reportes"
                 + "\n(6)=> Salir del programa";
-        while (valido == "x") {
+        while (valido == "x") { 
             try {
                 opcion = Integer.parseInt(JOptionPane.showInputDialog(texto));
                 switch (opcion) {

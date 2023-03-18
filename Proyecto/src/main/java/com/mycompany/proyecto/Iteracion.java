@@ -1,7 +1,6 @@
 
 package com.mycompany.proyecto;
 
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
