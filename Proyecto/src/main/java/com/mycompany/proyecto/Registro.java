@@ -20,8 +20,7 @@ public class Registro {
     
     //Creacion variables
     Objeto objeto = new Objeto();
-    Asignacion [][] matriz;
-     
+   
     //INICIO METODOS REQUERIMIENTOS
 
     
@@ -126,76 +125,76 @@ public class Registro {
     }
     
         
-        public void asignacionTrabajo(Registro requerimientos, Registro iteracion, Registro desarollador){
- 
-            String valido = "x";
-            int opcion = 0;
-            int continuar = 1;
-            boolean validar = false;
-
-                requerimientos.leerRequerimiento();
-                opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Seleccione un requerimiento: "));
-                for (int i = 0; i < listadoRequerimientos.size(); i++) {
-                    if (opcion == listadoRequerimientos.get(i).getIdRequerimiento()) {
-                        objeto.setRequerimiento(listadoRequerimientos.get(i).getIdRequerimiento());
-                        validar = true;
-                        valido="j";
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No existe ningún requerimiento asociado a ese ID");
-                        validar = false;
-                    }
-                }
-            
-        
-        if (validar == true) {
-            while (valido == "x") {
-                leerIteracion();
-                opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Seleccione una iteración: \n" ));
-                for (int i = 0; i < listadoIteraciones.size(); i++) {
-                    if (opcion == listadoIteraciones.get(i).getIdIteracion()) {
-                        matriz = new Asignacion[listadoIteraciones.get(i).getCantidadaSemanas()][5];
-                        valido = "j";
-                        validar = true;
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No existe ninguna iteración asociada a ese ID");
-                        valido = "x";
-                    }
-                }
-
-            }
-        }
-
-        if (validar == true) {
-            while (valido == "x") {
-                leerDesarrollador();
-                opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Seleccione un desarrollador: "));
-                for (int i = 0; i < listadoDesarrolladores.size(); i++) {
-                    if (opcion == listadoDesarrolladores.get(i).getIdDesarrollador()) {
-                        objeto.setDesarrollador(listadoDesarrolladores.get(i).getSiglasDesarrollador());
-                        valido = "j";
-                        validar = true;
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No existe ningún desarrollador asociado a ese ID");
-                        valido = "x";
-                    }
-                }
-
-            }
-        }
-
-        listadoAsignacion.add(objeto);
-
-        for (int i = 0; i < listadoAsignacion.size(); i++) {
-            JOptionPane.showMessageDialog(null, "Desarrollador: " + listadoAsignacion.get(i).getDesarrollador() + "\n"
-                    + "Requerimiento asignado: " + listadoAsignacion.get(i).getRequerimiento());
-        }
-
-    }
-
-
-        
-        
-        
+//        public void asignacionTrabajo(Registro requerimientos, Registro iteracion, Registro desarollador){
+// 
+//            String valido = "x";
+//            int opcion = 0;
+//            int continuar = 1;
+//            boolean validar = false;
+//
+//                requerimientos.leerRequerimiento();
+//                opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Seleccione un requerimiento: "));
+//                for (int i = 0; i < listadoRequerimientos.size(); i++) {
+//                    if (opcion == listadoRequerimientos.get(i).getIdRequerimiento()) {
+//                        objeto.setRequerimiento(listadoRequerimientos.get(i).getIdRequerimiento());
+//                        validar = true;
+//                        valido="j";
+//                    } else {
+//                        JOptionPane.showMessageDialog(null, "No existe ningún requerimiento asociado a ese ID");
+//                        validar = false;
+//                    }
+//                }
+//            
+//        
+//        if (validar == true) {
+//            while (valido == "x") {
+//                leerIteracion();
+//                opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Seleccione una iteración: \n" ));
+//                for (int i = 0; i < listadoIteraciones.size(); i++) {
+//                    if (opcion == listadoIteraciones.get(i).getIdIteracion()) {
+//                        matriz = new Asignacion[listadoIteraciones.get(i).getCantidadaSemanas()][5];
+//                        valido = "j";
+//                        validar = true;
+//                    } else {
+//                        JOptionPane.showMessageDialog(null, "No existe ninguna iteración asociada a ese ID");
+//                        valido = "x";
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//        if (validar == true) {
+//            while (valido == "x") {
+//                leerDesarrollador();
+//                opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Seleccione un desarrollador: "));
+//                for (int i = 0; i < listadoDesarrolladores.size(); i++) {
+//                    if (opcion == listadoDesarrolladores.get(i).getIdDesarrollador()) {
+//                        objeto.setDesarrollador(listadoDesarrolladores.get(i).getSiglasDesarrollador());
+//                        valido = "j";
+//                        validar = true;
+//                    } else {
+//                        JOptionPane.showMessageDialog(null, "No existe ningún desarrollador asociado a ese ID");
+//                        valido = "x";
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//        listadoAsignacion.add(objeto);
+//
+//        for (int i = 0; i < listadoAsignacion.size(); i++) {
+//            JOptionPane.showMessageDialog(null, "Desarrollador: " + listadoAsignacion.get(i).getDesarrollador() + "\n"
+//                    + "Requerimiento asignado: " + listadoAsignacion.get(i).getRequerimiento());
+//        }
+//
+//    }
+//
+//
+//        
+//        
+//        
         
         
         

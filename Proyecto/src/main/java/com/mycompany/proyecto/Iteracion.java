@@ -12,7 +12,7 @@ public class Iteracion {
     private int cantidadSemanas;
     private Estado estado;
     public static int numeroIteraciones = 2; //usada como contador
-    private Objeto[][] arrObjetos;
+    private Asignacion[][] arrDias; //cambiar a tipo asignacion
     
     public Iteracion() {
     }
@@ -21,12 +21,13 @@ public class Iteracion {
         this.idIteracion = idIteracion;
         this.cantidadSemanas = cantidadaSemanas;
         this.estado = estado;
+        this.arrDias = new Asignacion[cantidadaSemanas][5];
     }
 
     public void registroIteracion() {
         this.idIteracion = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el ID de iteración: "));
         this.cantidadSemanas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de semanas: "));
-        this.arrObjetos = new Objeto[cantidadSemanas][5];
+        this.arrDias = new Asignacion[cantidadSemanas][5];
         estado = Estado.En_Proceso;
 
     }
@@ -53,12 +54,12 @@ public class Iteracion {
         return estado;
     }
 
-    public Objeto[][] getArrObjetos() {
-        return arrObjetos;
+    public Asignacion[][] getArrDias() {
+        return arrDias;
     }
 
-    public void setArrObjetos(int semana, int dia) {
-        this.arrObjetos = new Objeto[semana][dia];
+    public void setArrDias(int semana, int dia) {
+        this.arrDias = new Asignacion[semana][dia];
     }
   
 }

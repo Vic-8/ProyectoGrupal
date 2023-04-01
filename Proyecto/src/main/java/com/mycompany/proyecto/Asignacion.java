@@ -13,15 +13,17 @@ import javax.swing.JOptionPane;
  * @author Ariana
  */
 public class Asignacion {
-
+    //crear contador asignaciones para las posiciones
+    public static int contadorElementos=0;
+    
     //Llamado de otras clases
     Registro registro = new Registro();
     ArrayList<Objeto> listadoAsignacion = new ArrayList();
 
     //Creacion de la matriz
     Objeto objeto = new Objeto();
-    Asignacion[][] matriz;
     Iteracion arreglo = new Iteracion();
+
     //Creacion del objeto complejo
     public void creacionObjeto(Registro requerimiento, Registro iteracion, Registro desarrollador) {
 
@@ -34,8 +36,8 @@ public class Asignacion {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(null, requerimiento.leerRequerimiento() + "\nSeleccione el requerimiento que desea asignar: "));
             for (int i = 0; i < requerimiento.listadoRequerimientos.size(); i++) {
                 if (opcion == requerimiento.listadoRequerimientos.get(i).getIdRequerimiento()) {
-                    objeto.setRequerimiento(requerimiento.listadoRequerimientos.get(i).getIdRequerimiento()); //Setea el requerimiento en el objeto
-                    requerimiento.listadoRequerimientos.get(i).setEstado(Estado.En_Desarollo); //cambia el estado del requerimiento a En Desarrollo
+                    objeto.setRequerimiento(requerimiento.listadoRequerimientos.get(i)); //Setea el requerimiento en el objeto
+                   //requerimiento.listadoRequerimientos.get(i).setEstado(Estado.En_Desarollo); //cambia el estado del requerimiento a En Desarrollo
                     validar = true;
                     break;
                 }
@@ -51,16 +53,16 @@ public class Asignacion {
                 opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Seleccione el desarrollador: \n" + desarrollador.leerDesarrollador()));
                 for (int i = 0; i < desarrollador.listadoDesarrolladores.size(); i++) {
                     if (opcion == desarrollador.listadoDesarrolladores.get(i).getIdDesarrollador()) {
-                        objeto.setDesarrollador(desarrollador.listadoDesarrolladores.get(i).getSiglasDesarrollador()); //setea las siglas del desarrollador en el objeto
+                        objeto.setDesarrollador(desarrollador.listadoDesarrolladores.get(i)); //setea las siglas del desarrollador en el objeto
                         valido = "j";
                         validar = false;
                         break;
-                    } 
+                    }
                 }
-                
-              if (valido == "x") {
-                JOptionPane.showMessageDialog(null, "No existe ningún desarrollador asociado a ese ID");
-            }  
+
+                if (valido == "x") {
+                    JOptionPane.showMessageDialog(null, "No existe ningún desarrollador asociado a ese ID");
+                }
             }
         }
 
@@ -79,17 +81,17 @@ public class Asignacion {
 //            }
 //            }
 //        }
-
 //        listadoAsignacion.add(objeto);
-
+//Mostramos el objeto creado
         for (int i = 0; i < listadoAsignacion.size(); i++) {
             JOptionPane.showMessageDialog(null, "Desarrollador: " + listadoAsignacion.get(i).getDesarrollador() + "\n"
                     + "Requerimiento asignado: " + listadoAsignacion.get(i).getRequerimiento());
         }
 
     }
-    
-    public void asignarObjetoIteracion(Asignacion asignar, Registro iteracion){
+
+    //Metodo para asignar el objeto a la iteración
+    public void asignarObjetoIteracion(Asignacion asignar, Registro iteracion) {
         //Asignarlo a la iteracion
         int opcion = 0;
         int dia = 0;
@@ -99,31 +101,30 @@ public class Asignacion {
         while (validar == false) {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(null, iteracion.leerIteracion() + "\nSeleccione la iteración: "));
             for (int i = 0; i < iteracion.listadoIteraciones.size(); i++) {
-                if (opcion == iteracion.listadoIteraciones.get(i).getIdIteracion()) { //Si la iteracion existe, preguntar por el dia que quiere empezar
+                if (opcion == iteracion.listadoIteraciones.get(i).getIdIteracion()) { //Si la iteracion existe, preguntar por la semana en que desea empezar
                     semanas = iteracion.listadoIteraciones.get(i).getCantidadaSemanas();
                     validar = true;
                     break;
                 }
             }
-        if (validar==true){
-            String almacenar="";
-            for (int i = 0; i < semanas; i++) {
-                almacenar+="Semana "+i+"\n";
-            }
-            opcion=Integer.parseInt(JOptionPane.showInputDialog("Seleccione la semana en la que desea iniciar el requerimiento: \n"+almacenar));
-            while (opcion<=semanas){
-                dia = Integer.parseInt(JOptionPane.showInputDialog("Seleccione el dia en el que desea iniciar el requerimiento: \n0. Lunes \n1. Martes \n2. Miércoles \n3. Jueves \n4. Viernes"));
-                if (arreglo.getArrObjetos()[semanas][dia]==null){
-                    listadoAsignacion.add(asignar.objeto);
-                    arreglo.setArrObjetos(semanas, dia);
+            if (validar == true) {
+                String almacenar = "";
+                for (int i = 0; i < semanas; i++) {
+                    almacenar += "Semana " + i + "\n";
                 }
+                opcion = Integer.parseInt(JOptionPane.showInputDialog("Seleccione la semana en la que desea iniciar el requerimiento: \n" + almacenar));
+                while (opcion <= semanas) {
+                    dia = Integer.parseInt(JOptionPane.showInputDialog("Seleccione el dia en el que desea iniciar el requerimiento: \n0. Lunes \n1. Martes \n2. Miércoles \n3. Jueves \n4. Viernes"));
+                    if (arreglo.getArrDias()[semanas][dia] == null) {
+                        arreglo.getArrDias()[semanas][dia].listadoAsignacion.add(contadorElementos, objeto);
+                        contadorElementos++;
+                    }
+                }
+                //en esta parte se está cayendo, necesitamos validar que el espacio en la matriz está vacio primero y agregar el objeto
+                //si el objeto ya está agregado y el nuevo objeto es diferente requerimiento y desarrollador, agregarlos a una lista y sobreescribir el mismo espacio de la matriz
             }
+        }
 
-        }
-        }
-        
         //Preguntarle al user que semana y dia desea empezar
-        
-        
     }
 }

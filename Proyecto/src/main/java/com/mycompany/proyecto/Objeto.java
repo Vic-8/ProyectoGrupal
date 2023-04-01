@@ -9,26 +9,32 @@ package com.mycompany.proyecto;
  * @author Ariana
  */
 public class Objeto {
-    private String desarrollador;
-    private int requerimiento;
+    private Desarrollador desarrollador; // tipo Desarrollador 
+    private Requerimiento requerimiento; // tipo requerimiento
 
     public Objeto() {
     }
 
-    public String getDesarrollador() {
+    public Objeto(Desarrollador desarrollador, Requerimiento requerimiento) {
+        this.desarrollador = desarrollador;
+        this.requerimiento = requerimiento;
+    }
+
+    public Desarrollador getDesarrollador() {
         return desarrollador;
     }
 
-    public void setDesarrollador(String desarrollador) {
+    public void setDesarrollador(Desarrollador desarrollador) {
         this.desarrollador = desarrollador;
     }
 
-    public int getRequerimiento() {
+    public Requerimiento getRequerimiento() {
         return requerimiento;
     }
 
-    public void setRequerimiento(int requerimiento) {
+    public void setRequerimiento(Requerimiento requerimiento) {
         this.requerimiento = requerimiento;
     }
-    
+
+   
 }
