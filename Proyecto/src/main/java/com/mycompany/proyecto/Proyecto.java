@@ -48,13 +48,15 @@ public class Proyecto {
         int opcion = 0; 
         int continuar = 1;
         texto = "MENU PRINCIPAL"
-                + "\n--------------------------------\n"
+                + "\n-----------------------------------------------------------\n"
                 + "(1)=> Registro de desarrolladores"
                 + "\n(2)=> Registro de requerimientos en Backlog"
-                + "\n(3)=> Registro de iteraciones."
-                + "\n(4)=> Asignación de trabajo."
-                + "\n(5)=> Ver reportes"
-                + "\n(6)=> Salir del programa";
+                + "\n(3)=> Registro de iteraciones"
+                + "\n(4)=> Asignación de trabajo"
+                + "\n(5)=> Cierre de una iteración"
+                + "\n(6)=> Ver reportes"
+                + "\n(7)=> Salir del programa"
+                + "\n-----------------------------------------------------------\n";
         while (valido == "x") {
             try {
                 opcion = Integer.parseInt(JOptionPane.showInputDialog(texto));
@@ -62,7 +64,7 @@ public class Proyecto {
                     case 1 -> {
                         int nuevo = 0;
                         while (nuevo == 0) {
-                            if (Desarrollador.numeroDesarrolladores < 50) { //Contador publico en la clase desarrollador
+                            if (Desarrollador.numeroDesarrolladores < 5) { //Contador publico en la clase desarrollador
                                 desarrollador.agregarDesarrollador();
                                 Desarrollador.numeroDesarrolladores++;
                             } else {
@@ -139,7 +141,7 @@ public class Proyecto {
                     }
                     case 4 -> {
                         asignar.creacionObjeto(requerimientos, iteracion, desarrollador);
-                        asignar.asignarObjetoIteracion(asignar, iteracion);
+//                        asignar.asignarObjetoIteracion(asignar, iteracion);
                         continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú principal? ", "WARNING", JOptionPane.YES_NO_OPTION);
                         if (continuar == JOptionPane.YES_OPTION) {
                             valido = "x";
@@ -148,7 +150,7 @@ public class Proyecto {
                         }
                     }
                     case 5 -> {
-
+                        asignar.cierreIteracion(iteracion);
                         continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú principal? ", "WARNING", JOptionPane.YES_NO_OPTION);
                         if (continuar == JOptionPane.YES_OPTION) {
                             valido = "x";
@@ -157,6 +159,16 @@ public class Proyecto {
                         }
                     }
                     case 6 -> {
+                        menuReportes(requerimientos, iteracion, desarrollador, asignar);
+                        continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú principal? ", "WARNING", JOptionPane.YES_NO_OPTION);
+                        if (continuar == JOptionPane.YES_OPTION) {
+                            valido = "x";
+                        } else {
+                            valido = "j";
+                        }
+                    }
+                    
+                    case 7 -> {
                         valido = "j";
                         break;
                     }
@@ -170,4 +182,82 @@ public class Proyecto {
         }
     }
 
+      public static void menuReportes(Registro requerimientos, Registro iteracion, Registro desarrollador, Asignacion asignar) {
+        String texto;
+        String valido = "x";
+        int opcion = 0; 
+        int continuar = 1;
+        texto = "VISUALIZACIÓN DE REPORTES"
+                + "\n--------------------------------\n"
+                + "(1)=> Reporte de los requerimientos"
+                + "\n(2)=> Reporte de los desarrolladores"
+                + "\n(3)=> Registro de iteraciones"
+                + "\n(4)=> Reporte visual de una iteración"
+                + "\n(5)=> Reporte de resumen de iteraciones"
+                + "\n(6)=> Regresar al menú principal"
+                + "\n--------------------------------\n";
+        while (valido == "x") {
+            try {
+                opcion = Integer.parseInt(JOptionPane.showInputDialog(texto));
+                switch (opcion) {
+                    case 1 -> {
+                        JOptionPane.showMessageDialog(null, requerimientos.leerRequerimiento());
+                        continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú? ", "WARNING", JOptionPane.YES_NO_OPTION);
+                        if (continuar == JOptionPane.YES_OPTION) {
+                            valido = "x";
+                        } else {
+                            valido = "j";
+                        }
+                    }
+                    case 2 -> {
+                        JOptionPane.showMessageDialog(null, desarrollador.leerDesarrollador());
+                        continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú? ", "WARNING", JOptionPane.YES_NO_OPTION);
+                        if (continuar == JOptionPane.YES_OPTION) {
+                            valido = "x";
+                        } else {
+                            valido = "j";
+                        }
+                    }
+                    case 3 -> {
+                        JOptionPane.showMessageDialog(null, iteracion.leerIteracion());
+                        continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú? ", "WARNING", JOptionPane.YES_NO_OPTION);
+                        if (continuar == JOptionPane.YES_OPTION) {
+                            valido = "x";
+                        } else {
+                            valido = "j";
+                        }
+                    }
+                    case 4 -> {
+                        asignar.visualizacionMatriz(iteracion);
+                        continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú? ", "WARNING", JOptionPane.YES_NO_OPTION);
+                        if (continuar == JOptionPane.YES_OPTION) {
+                            valido = "x";
+                        } else {
+                            valido = "j";
+                        }
+                    }
+                    case 5 -> {
+                        
+                        continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú? ", "WARNING", JOptionPane.YES_NO_OPTION);
+                        if (continuar == JOptionPane.YES_OPTION) {
+                            valido = "x";
+                        } else {
+                            valido = "j";
+                        }
+                    }
+                    
+                    case 6 -> {
+                        valido = "j";
+                        break;
+                    }
+                    default -> {
+                        JOptionPane.showMessageDialog(null, "Error, opción inválida.");
+                    }
+                }
+            } catch (HeadlessException | NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error, entrada inválida. Regresando al menú :)");
+            }
+        }
+    }  
+ 
 }

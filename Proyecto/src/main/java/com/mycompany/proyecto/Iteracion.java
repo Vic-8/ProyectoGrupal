@@ -17,11 +17,11 @@ public class Iteracion {
     public Iteracion() {
     }
 
-    public Iteracion(int idIteracion, int cantidadaSemanas, Estado estado) {
+    public Iteracion(int idIteracion, int cantidadSemanas, Estado estado) {
         this.idIteracion = idIteracion;
-        this.cantidadSemanas = cantidadaSemanas;
+        this.cantidadSemanas = cantidadSemanas;
         this.estado = estado;
-        this.arrDias = new Asignacion[cantidadaSemanas][5];
+        this.arrDias = new Asignacion[cantidadSemanas][5];
     }
 
     public void registroIteracion() {
@@ -60,6 +60,10 @@ public class Iteracion {
 
     public void setArrDias(int semana, int dia) {
         this.arrDias = new Asignacion[semana][dia];
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
   
 }
