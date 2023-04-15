@@ -178,6 +178,7 @@ public class Proyecto {
                 }
             } catch (HeadlessException | NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Error, entrada inválida. Regresando al menú principal :)");
+                
             }
         }
     }
@@ -237,7 +238,7 @@ public class Proyecto {
                         }
                     }
                     case 5 -> {
-                        
+                        asignar.reporteMensual(iteracion);
                         continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú? ", "WARNING", JOptionPane.YES_NO_OPTION);
                         if (continuar == JOptionPane.YES_OPTION) {
                             valido = "x";

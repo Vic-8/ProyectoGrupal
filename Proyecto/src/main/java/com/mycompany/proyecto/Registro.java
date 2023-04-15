@@ -46,17 +46,6 @@ public class Registro {
         return almacenar;
     }
     
-    public void eliminarRequerimiento(){
-        int idRequerimiento = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de requerimiento que desea eliminar: "));
-          for (int i = 0; i < listadoRequerimientos.size(); i++) {
-              if (idRequerimiento==listadoRequerimientos.get(i).getIdRequerimiento()){
-                  listadoRequerimientos.remove(i);
-              } else {
-                  JOptionPane.showMessageDialog(null, "No existe ningún requerimiento asociado a ese ID");
-              }
-          }   
-        
-    }
     
     //INICIO METODOS PARA LAS ITERACIONES
     

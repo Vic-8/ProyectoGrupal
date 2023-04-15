@@ -107,111 +107,124 @@ public class Asignacion {
                             dia = Integer.parseInt(JOptionPane.showInputDialog("Seleccione el dia en el que desea iniciar el requerimiento: \n0. Lunes \n1. Martes \n2. Miércoles \n3. Jueves \n4. Viernes"));
                             asignarDesarrollador(desarrollador, objeto);
                             if (validarDiasDisponibles(iteracion, posicionIteracion, opcion, dia, objeto) >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                if (validarListadoAsignacion(iteracion, posicionIteracion, opcion, dia, objeto) == false) {
-                                    esfuerzoNecesario = dia + objeto.getRequerimiento().getEsfuerzoNecesario();
-                                    if (validarDias(iteracion, objeto, dia, opcion, posicionIteracion) == true) {
-                                        contadorElementos = 0;
-                                        if (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                            while (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                                iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
-                                                iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(contadorElementos, objeto);
-                                                if (dia > 4) {
-                                                    opcion++;
-                                                    dia = 0;
+                                if (verificarDias(iteracion, posicionIteracion, opcion, dia, objeto) >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
+                                    if (validarListadoAsignacion(iteracion, posicionIteracion, opcion, dia, objeto) == false) {
+                                        esfuerzoNecesario = dia + objeto.getRequerimiento().getEsfuerzoNecesario();
+                                        if (validarDias(iteracion, objeto, dia, opcion, posicionIteracion) == true) {
+                                            contadorElementos = 0;
+                                            if (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
+                                                for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
+                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
+                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(contadorElementos, objeto);
+                                                    if (dia > 4) {
+                                                        opcion++;
+                                                        dia = 0;
+                                                    }
+                                                    dia++;
                                                 }
-                                                dia++;
-                                            }
-                                        } else if (dia >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                            while (dia < esfuerzoNecesario) {
-                                                if (dia > 4) {
-                                                    opcion++;
-                                                    esfuerzoNecesario = esfuerzoNecesario - dia;
-                                                    dia = 0;
-                                                }
-                                                iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
-                                                iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(contadorElementos, objeto);
+                                            } else if (dia >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
+                                                while (dia < esfuerzoNecesario) {
+                                                    if (dia > 4) {
+                                                        opcion++;
+                                                        esfuerzoNecesario = esfuerzoNecesario - dia;
+                                                        dia = 0;
+                                                    }
+                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
+                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(contadorElementos, objeto);
 
-                                                dia++;
+                                                    dia++;
+                                                }
                                             }
-                                        }
-                                        contadorElementos++;
-                                        valido = "j";
-                                        //validar = false;
-                                    } else {
-                                        diaInicial = dia;
-                                        for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
-                                            if (diaInicial>4){
-                                                opcion++;
-                                                diaInicial=0;
-                                            }
-                                            if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(0).getDesarrollador() != objeto.getDesarrollador()) {
-                                                asignado = false;
-                                            } else {
-                                                asignado = true;
-                                            }
-                                            if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.size() == 2) {
-                                                if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(1).getDesarrollador() != objeto.getDesarrollador()
-                                                        || iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(1).getDesarrollador() == null) {
+                                            contadorElementos++;
+                                            valido = "j";
+                                            validarDesarrollador = false;
+                                            validarRequerimiento = true;
+                                            //validar = false;
+                                        } else {
+                                            diaInicial = dia;
+                                            for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
+                                                if (diaInicial > 4) {
+                                                    opcion++;
+                                                    diaInicial = 0;
+                                                }
+                                                if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(0).getDesarrollador() != objeto.getDesarrollador()
+                                                        || iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial] == null) {
                                                     asignado = false;
                                                 } else {
                                                     asignado = true;
                                                 }
-                                            } else if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.size() > 2) {
-                                                for (int j = 1; j < 3; j++) {
-                                                    if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(j).getDesarrollador() != objeto.getDesarrollador()
-                                                            || iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(j).getDesarrollador() == null) {
+                                                if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.size() == 2) {
+                                                    if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(1).getDesarrollador() != objeto.getDesarrollador()
+                                                            || iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(1).getDesarrollador() == null) {
                                                         asignado = false;
                                                     } else {
                                                         asignado = true;
                                                     }
+                                                } else if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.size() > 2) {
+                                                    for (int j = 1; j < 3; j++) {
+                                                        if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(j).getDesarrollador() != objeto.getDesarrollador()
+                                                                || iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(j).getDesarrollador() == null) {
+                                                            asignado = false;
+                                                        } else {
+                                                            asignado = true;
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+
+                                            diaInicial++;
+
+                                            if (asignado == false) {
+                                                if (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
+                                                    while (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
+                                                        if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] == null) {
+                                                            iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
+                                                            iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
+                                                        } else {
+                                                            iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
+                                                        }
+                                                        dia++;
+                                                    }
+                                                    valido = "j";
+                                                    validarDesarrollador = false;
+                                                    validarRequerimiento = true;
+                                                } else if (dia >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
+                                                    for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
+                                                        if (dia > 4) {
+                                                            opcion++;
+                                                            dia = 0;
+                                                        }
+                                                        if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] == null) {
+                                                            iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
+                                                            iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
+                                                        } else {
+                                                            iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
+                                                        }
+                                                        dia++;
+                                                    }
+                                                    valido = "j";
+                                                    validarDesarrollador = false;
+                                                    validarRequerimiento = true;
                                                 }
 
+                                            } else {
+                                                JOptionPane.showMessageDialog(null, "Lo sentimos este desarrollador ya fue asignado");
+                                                valido = "j";
+                                                validarDesarrollador = true;
                                             }
                                         }
-
-                                        diaInicial++;
-                                    }
-
-                                    if (asignado == false) {
-                                        if (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                            while (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                                if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] == null) {
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
-                                                } else {
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
-                                                }
-                                                dia++;
-                                            }
-                                            valido = "j";
-                                        } else if (dia >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                            for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
-                                                if (dia > 4) {
-                                                    opcion++;
-                                                    dia = 0;
-                                                }
-                                                if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] == null) {
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
-                                                } else {
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
-                                                }
-                                                dia++;
-                                            }
-                                        }
-
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "Lo sentimos este desarrollador ya fue asignado");
-                                        valido = "j";
-                                        validarDesarrollador = true;
+                                        JOptionPane.showMessageDialog(null, "Lo sentimos, no se pueden agregar más requerimientos en este día. Porfavor, seleccione otro día.");
+                                        valido = "x";
+                                        validarDesarrollador = false;
+
                                     }
+
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Lo sentimos, no se pueden agregar más requerimientos en este día. Porfavor, seleccione otro día.");
-                                    valido = "x";
-                                    validarDesarrollador = false;
-
+                                    JOptionPane.showMessageDialog(null, "Lo sentimos, no hay espacio disponible desde el dia de inicio hasta el día final.");
+                                    validarDesarrollador = true;
                                 }
-
                             } else {
                                 JOptionPane.showMessageDialog(null, "Lo sentimos, no hay espacio suficiente para asignar el requerimiento. Por favor seleccione otra iteración.");
                                 validarDesarrollador = true;
@@ -276,6 +289,7 @@ public class Asignacion {
     } //VALIDA SI EL DESARROLLADOR NO FUE ASIGNADO A ESE DIA YA
 
     public void visualizacionMatriz(Registro iteracion) {
+
         int opcion = 0;
         int posicion = 0;
         boolean validar = true;
@@ -316,6 +330,9 @@ public class Asignacion {
                                     if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador() != almacenarDesarrolladores.get(k)) {
                                         almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
                                     }
+                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador() != almacenarDesarrolladores.get(k)) {
+                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
+                                    }
                                 }
                             }
                         } else {
@@ -324,6 +341,7 @@ public class Asignacion {
                                 almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
                             } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
                                 almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
+                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
                             }
                         }
                         if (almacenarRequerimientos.isEmpty() == false) {
@@ -338,6 +356,9 @@ public class Asignacion {
                                     if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento() != almacenarRequerimientos.get(k)) {
                                         almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
                                     }
+                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento() != almacenarRequerimientos.get(k)) {
+                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
+                                    }
                                 }
                             }
                         } else {
@@ -346,6 +367,7 @@ public class Asignacion {
                                 almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
                             } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
                                 almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
+                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
                             }
                         }
                     }
@@ -419,14 +441,12 @@ public class Asignacion {
 //VALIDA SI EL DIA NO TIENE MÁS DE 3 OBJETOS YA ASIGNADOS
 
     public int validarDiasDisponibles(Registro iteracion, int posicion, int opcion, int dia, Objeto objeto) {
+
         boolean disponibles = false;
         int contador = 0;
+        int esfuerzo = objeto.getRequerimiento().getEsfuerzoNecesario();
 
-//        contador = iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas() * 5;
-//
-//        if (objeto.getRequerimiento().getEsfuerzoNecesario() <= contador) {
-//            disponibles = true;
-//        }
+//Validar por ejemplo si elijen 
         for (int i = 0; i < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); i++) {
             for (int j = 0; j < 5; j++) {
                 if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j] == null || iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() < 3) {
@@ -437,6 +457,29 @@ public class Asignacion {
 
         return contador;
     } //VALIDA SI LA ITERACION ES LO SUFICIENTEMENTE GRANDE PARA ALMACENAR EL REQUERIMIENTO
+
+    public int verificarDias(Registro iteracion, int posicion, int opcion, int dia, Objeto objeto) {
+
+        boolean disponibles = false;
+        int contador = 0;
+        int esfuerzo = objeto.getRequerimiento().getEsfuerzoNecesario();
+
+        for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
+            if (opcion == objeto.getRequerimiento().getEsfuerzoNecesario() - 1 && dia > 4) {
+                contador = 0;
+                break;
+            } else if (dia > 4) {
+                opcion++;
+                dia = 0;
+            }
+            if (iteracion.listadoIteraciones.get(posicion).getArrDias()[opcion][dia] == null
+                    || iteracion.listadoIteraciones.get(posicion).getArrDias()[opcion][dia].listadoAsignacion.size() < 3) {
+                contador++;
+            }
+            dia++;
+        }
+        return contador;
+    }
 
     public void cierreIteracion(Registro iteracion) {
         int opcion = 0;
@@ -471,6 +514,7 @@ public class Asignacion {
                                 iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento().setEstado(Estado.Finalizado);
                             } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
                                 iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento().setEstado(Estado.Finalizado);
+                                iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento().setEstado(Estado.Finalizado);
                             }
                         }
                     }
@@ -479,5 +523,137 @@ public class Asignacion {
         } else {
             JOptionPane.showMessageDialog(null, "Lo sentimos, esta iteración ya ha sido cerrada");
         }
+    }
+
+    public void reporteMensual(Registro iteracion) {
+        int opcion = 0;
+        int posicion = 0;
+        int total = 0;
+        int contadorRequerimientos = 0;
+        boolean validar = true;
+        boolean existe = false;
+        String almacenarIteracion = "";
+        String mostrarDesarrolladores = "";
+        String mostrarRequerimientos = "";
+        String texto = "";
+        ArrayList<Desarrollador> almacenarDesarrolladores = new ArrayList();
+        ArrayList<Requerimiento> almacenarRequerimientos = new ArrayList();
+
+        while (validar == true) {
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(null, iteracion.leerIteracion() + "\nIngrese el ID de la iteración deseada: "));
+            for (int i = 0; i < iteracion.listadoIteraciones.size(); i++) {
+                if (opcion == iteracion.listadoIteraciones.get(i).getIdIteracion()) {
+                    existe = true;
+                    posicion = i;
+                    validar = false;
+                    break;
+                }
+            }
+        }
+        if (validar == true) {
+            JOptionPane.showMessageDialog(null, "Lo sentimos, no existe ninguna iteración asociada a ese ID");
+        }
+
+        if (existe == true) { //validacion para obtener los requerimientos y desarrolladores de la iteracion
+            for (int i = 0; i < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); i++) {
+                for (int j = 0; j < 5; j++) {
+                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j] != null) {
+                        if (almacenarDesarrolladores.isEmpty() == false) {
+                            for (int k = 0; k < almacenarDesarrolladores.size(); k++) {
+                                if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador() != almacenarDesarrolladores.get(k)) {
+                                    almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador());
+                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
+                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador() != almacenarDesarrolladores.get(k)) {
+                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
+                                    }
+                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
+                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador() != almacenarDesarrolladores.get(k)) {
+                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
+                                    }
+                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador() != almacenarDesarrolladores.get(k)) {
+                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
+                                    }
+                                }
+                            }
+                        } else {
+                            almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador());
+                            if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
+                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
+                            } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
+                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
+                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
+                            }
+                        }
+                        if (almacenarRequerimientos.isEmpty() == false) {
+                            for (int k = 0; k < almacenarRequerimientos.size(); k++) {
+                                if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento() != almacenarRequerimientos.get(k)) {
+                                    almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento());
+                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
+                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento() != almacenarRequerimientos.get(k)) {
+                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
+                                    }
+                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
+                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento() != almacenarRequerimientos.get(k)) {
+                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
+                                    }
+                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento() != almacenarRequerimientos.get(k)) {
+                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
+                                    }
+                                }
+                            }
+                        } else {
+                            almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento());
+                            if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
+                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
+                            } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
+                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
+                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        if (almacenarDesarrolladores.isEmpty() == false) {
+            for (int i = 0; i < almacenarDesarrolladores.size(); i++) {
+                mostrarDesarrolladores += "Nombre del desarrollador: " + almacenarDesarrolladores.get(i).getNombreDesarrollador() + " " + almacenarDesarrolladores.get(i).getPrimerApellidoDesarrollador() + " || "
+                        + "Costo por día: " + almacenarDesarrolladores.get(i).getCostoDiario() + "\n";
+            }
+        }
+
+        if (almacenarRequerimientos.isEmpty() == false) {
+            for (int i = 0; i < almacenarRequerimientos.size(); i++) {
+                mostrarRequerimientos += "ID: " + almacenarRequerimientos.get(i).getIdRequerimiento() + " Esfuerzo: "
+                        + almacenarRequerimientos.get(i).getEsfuerzoNecesario();
+                contadorRequerimientos += almacenarRequerimientos.get(i).getEsfuerzoNecesario();
+            }
+        }
+
+        for (int i = 0; i < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); i++) {
+            for (int j = 0; j < 5; j++) {
+                if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j] != null) {
+                    total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador().getCostoDiario();
+                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
+                        total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador().getCostoDiario();
+                    } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
+                        {
+                            total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador().getCostoDiario();
+                            total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador().getCostoDiario();
+                        }
+                    }
+                }
+            }
+
+        }
+        texto = "REPORTE MENSUAL DE LA ITERACIÓN\n--------------------------------------------------------------------------\n\n"
+                + "Cantidad de requerimientos asignados: " + almacenarRequerimientos.size() + "\n"
+                + "Información de los requerimientos\n---------------------------------------------------\n" + mostrarRequerimientos + "\n"
+                + "Cantidad de desarrolladores asignados: " + almacenarDesarrolladores.size() + "\n"
+                + "Información de los desarrollaadores\n-----------------------------------------------------------------\n"
+                + "Suma de esfuerzo de los requerimientos: " + contadorRequerimientos + "\n"
+                + "Costo de la iteración: " + ((total * 0.13) + total);
+        JOptionPane.showMessageDialog(null, texto);
+
     }
 }
