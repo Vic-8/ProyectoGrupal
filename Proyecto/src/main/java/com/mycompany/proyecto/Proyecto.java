@@ -17,14 +17,18 @@ public class Proyecto {
         Registro iteracion = new Registro();
         Registro desarrollador = new Registro();
         Asignacion asignar = new Asignacion();
-
+        Objeto objeto = new Objeto();
         //Datos precargados
         Requerimiento requerimiento1 = new Requerimiento(1, "Req1", 3, Estado.Pendiente);
         Requerimiento requerimiento2 = new Requerimiento(2, "Req2", 2, Estado.Pendiente);
         Requerimiento requerimiento3 = new Requerimiento(3, "Req3", 4, Estado.Pendiente);
         Requerimiento requerimiento4 = new Requerimiento(4, "Req4", 1, Estado.Pendiente);
-        Desarrollador desarrollador1 = new Desarrollador(204, "Francisco", "Araya", "Ramos`", 2000);
-        Desarrollador desarrollador2 = new Desarrollador(304, "Paola", "Araya", "Dobles", 3000);
+        Requerimiento requerimiento5 = new Requerimiento(5, "Req5", 5, Estado.Pendiente);
+        Requerimiento requerimiento6 = new Requerimiento(6, "Req6", 2, Estado.Pendiente);
+        Requerimiento requerimiento7 = new Requerimiento(7, "Req7", 4, Estado.Pendiente);
+        Desarrollador desarrollador1 = new Desarrollador(1, "Jonathan", "Blanco", "Brenes", 2000);
+        Desarrollador desarrollador2 = new Desarrollador(2, "Susana", "Garcia", "Caldero", 3000);
+        Desarrollador desarrollador3 = new Desarrollador(3, "Ricardo", "Calderon", "Montiel", 3000);
         Iteracion iteracion1 = new Iteracion(1, 3, Estado.En_Proceso);
         Iteracion iteracion2 = new Iteracion(2, 2, Estado.En_Proceso);
 
@@ -32,17 +36,21 @@ public class Proyecto {
         requerimientos.listadoRequerimientos.add(requerimiento2);
         requerimientos.listadoRequerimientos.add(requerimiento3);
         requerimientos.listadoRequerimientos.add(requerimiento4);
+        requerimientos.listadoRequerimientos.add(requerimiento5);
+        requerimientos.listadoRequerimientos.add(requerimiento6);
+        requerimientos.listadoRequerimientos.add(requerimiento7);
         desarrollador.listadoDesarrolladores.add(desarrollador1);
         desarrollador.listadoDesarrolladores.add(desarrollador2);
+        desarrollador.listadoDesarrolladores.add(desarrollador3);
         iteracion.listadoIteraciones.add(iteracion1);
         iteracion.listadoIteraciones.add(iteracion2);
 
         //Llamada menu principal
-        menu(requerimientos, iteracion, desarrollador, asignar);
+        menu(requerimientos, iteracion, desarrollador, asignar, objeto);
 
     }
 
-    public static void menu(Registro requerimientos, Registro iteracion, Registro desarrollador, Asignacion asignar) {
+    public static void menu(Registro requerimientos, Registro iteracion, Registro desarrollador, Asignacion asignar, Objeto objeto) {
         String texto;
         String valido = "x";
         int opcion = 0; 

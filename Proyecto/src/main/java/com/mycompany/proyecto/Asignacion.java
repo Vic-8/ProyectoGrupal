@@ -7,6 +7,8 @@ package com.mycompany.proyecto;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,6 +36,7 @@ public class Asignacion {
         int continuar = 1;
         int dia = 0;
         int posicionIteracion = 0;
+        int posicionRequerimiento = 0;
         int semanas = 0;
         int esfuerzoNecesario = 0;
         int diaInicial = 0;
@@ -53,7 +56,8 @@ public class Asignacion {
                     existe = true;
                     if (requerimiento.listadoRequerimientos.get(i).getEstado() == Estado.Pendiente) { //VALIDA EL ESTADO DEL REQUERIMIENTO
                         objeto.setRequerimiento(requerimiento.listadoRequerimientos.get(i));
-                        requerimiento.listadoRequerimientos.get(i).setEstado(Estado.En_Desarollo);
+//                        requerimiento.listadoRequerimientos.get(i).setEstado(Estado.En_Desarollo);
+                        posicionRequerimiento = i;
                         validarRequerimiento = true;
                         break;
                     } else {
@@ -61,6 +65,7 @@ public class Asignacion {
                         validarRequerimiento = false;
                         validarDesarrollador = false;
                         valido = "j";
+                        break;
                     }
                 }
             }
@@ -71,6 +76,7 @@ public class Asignacion {
 
             //2 SELECCION DE LA ITERACION
             while (validarDesarrollador == true) {
+                valido="x";
                 validarDesarrollador = true;
                 opcion = Integer.parseInt(JOptionPane.showInputDialog(null, iteracion.leerIteracion() + "\nSeleccione la iteración: "));
                 for (int i = 0; i < iteracion.listadoIteraciones.size(); i++) {
@@ -92,7 +98,8 @@ public class Asignacion {
                 }
                 if (existe == true) {
                     JOptionPane.showMessageDialog(null, "Lo sentimos, no existe ninguna iteración asignada al ID ingresado.");
-                    validarDesarrollador = true;
+                    validarDesarrollador = true;   
+       
                 }
 
                 if (validarDesarrollador == false) {
@@ -114,14 +121,17 @@ public class Asignacion {
                                             contadorElementos = 0;
                                             if (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
                                                 for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(contadorElementos, objeto);
                                                     if (dia > 4) {
                                                         opcion++;
                                                         dia = 0;
                                                     }
+
+                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
+                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(contadorElementos, objeto);
+
                                                     dia++;
                                                 }
+                                                requerimiento.listadoRequerimientos.get(posicionRequerimiento).setEstado(Estado.En_Desarollo);
                                             } else if (dia >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
                                                 while (dia < esfuerzoNecesario) {
                                                     if (dia > 4) {
@@ -134,6 +144,7 @@ public class Asignacion {
 
                                                     dia++;
                                                 }
+                                                requerimiento.listadoRequerimientos.get(posicionRequerimiento).setEstado(Estado.En_Desarollo);
                                             }
                                             contadorElementos++;
                                             valido = "j";
@@ -177,7 +188,11 @@ public class Asignacion {
 
                                             if (asignado == false) {
                                                 if (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                                    while (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
+                                                    for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
+                                                        if (dia > 4) {
+                                                            opcion++;
+                                                            dia = 0;
+                                                        }
                                                         if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] == null) {
                                                             iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
                                                             iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
@@ -186,6 +201,7 @@ public class Asignacion {
                                                         }
                                                         dia++;
                                                     }
+                                                    requerimiento.listadoRequerimientos.get(posicionRequerimiento).setEstado(Estado.En_Desarollo);
                                                     valido = "j";
                                                     validarDesarrollador = false;
                                                     validarRequerimiento = true;
@@ -203,6 +219,7 @@ public class Asignacion {
                                                         }
                                                         dia++;
                                                     }
+                                                    requerimiento.listadoRequerimientos.get(posicionRequerimiento).setEstado(Estado.En_Desarollo);
                                                     valido = "j";
                                                     validarDesarrollador = false;
                                                     validarRequerimiento = true;
@@ -292,12 +309,13 @@ public class Asignacion {
 
         int opcion = 0;
         int posicion = 0;
+        int contador = 0;
         boolean validar = true;
         boolean existe = false;
         String almacenarIteracion = "";
         String almacenar = "";
-        ArrayList<Desarrollador> almacenarDesarrolladores = new ArrayList();
-        ArrayList<Requerimiento> almacenarRequerimientos = new ArrayList();
+        ArrayList<Desarrollador> almacenarDesarrolladoresTemp = new ArrayList();
+        ArrayList<Requerimiento> almacenarRequerimientosTemp = new ArrayList();
 
         while (validar == true) {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(null, iteracion.leerIteracion() + "\nIngrese el ID de la iteración deseada: "));
@@ -316,63 +334,29 @@ public class Asignacion {
 
         if (existe == true) { //validacion para obtener los requerimientos y desarrolladores de la iteracion
             for (int i = 0; i < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); i++) {
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < 5; j++) { //Arreglo que almacena todos los desarrolladores y requerimientos que hay en la iteracion
                     if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j] != null) {
-                        if (almacenarDesarrolladores.isEmpty() == false) {
-                            for (int k = 0; k < almacenarDesarrolladores.size(); k++) {
-                                if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador() != almacenarDesarrolladores.get(k)) {
-                                    almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador());
-                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador() != almacenarDesarrolladores.get(k)) {
-                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
-                                    }
-                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador() != almacenarDesarrolladores.get(k)) {
-                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
-                                    }
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador() != almacenarDesarrolladores.get(k)) {
-                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
-                                    }
-                                }
-                            }
-                        } else {
-                            almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador());
-                            if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
-                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
-                            } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
-                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
-                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
-                            }
+                        almacenarDesarrolladoresTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador());
+                        almacenarRequerimientosTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento());
+                        if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
+                            almacenarDesarrolladoresTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
+                            almacenarRequerimientosTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
                         }
-                        if (almacenarRequerimientos.isEmpty() == false) {
-                            for (int k = 0; k < almacenarRequerimientos.size(); k++) {
-                                if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento() != almacenarRequerimientos.get(k)) {
-                                    almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento());
-                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento() != almacenarRequerimientos.get(k)) {
-                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
-                                    }
-                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento() != almacenarRequerimientos.get(k)) {
-                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
-                                    }
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento() != almacenarRequerimientos.get(k)) {
-                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
-                                    }
-                                }
-                            }
-                        } else {
-                            almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento());
-                            if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
-                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
-                            } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
-                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
-                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
-                            }
+                        if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
+                            almacenarDesarrolladoresTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
+                            almacenarDesarrolladoresTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
+                            almacenarRequerimientosTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
+                            almacenarRequerimientosTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
                         }
+
                     }
                 }
             }
+
+            Set<Desarrollador> setDesarrolladores = new LinkedHashSet<>(almacenarDesarrolladoresTemp);
+            Set<Requerimiento> setRequerimientos = new LinkedHashSet<>(almacenarRequerimientosTemp);
+            ArrayList<Desarrollador> almacenarDesarrolladores = new ArrayList<>(setDesarrolladores);
+            ArrayList<Requerimiento> almacenarRequerimientos = new ArrayList<>(setRequerimientos);
 
             if (almacenarRequerimientos.isEmpty() == false) {
                 almacenar += "REQUERIMIENTOS\n----------------------------------------------\n";
@@ -386,42 +370,50 @@ public class Asignacion {
                 almacenar += "\nDESARROLLADORES\n--------------------------------------------------------\n";
                 almacenar += "ID Desarrollador    |    Siglas\n";
                 for (int i = 0; i < almacenarDesarrolladores.size(); i++) {
-                    almacenar += almacenarDesarrolladores.get(i).getIdDesarrollador() + "                           " + almacenarDesarrolladores.get(i).getSiglasDesarrollador() + "\n";
+                    almacenar += almacenarDesarrolladores.get(i).getIdDesarrollador() + "                                        " + almacenarDesarrolladores.get(i).getSiglasDesarrollador() + "\n";
                 }
             }
 
             if (existe == true) {
+                almacenarIteracion += "         "+"Día 1" + "           Día 2" + "          Día 3" + "          Día 4"  + "         Día 5\n";
                 for (int j = 0; j < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); j++) { //Recorre filas
-                    almacenarIteracion += "Semana #" + (j + 1) + "\n----------------------------------------------------------\n";
+                    almacenarIteracion += "Semana #" + (j + 1) + "          ";
                     for (int i = 0; i < 5; i++) { //Recorre columnas
                         if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i] == null) {
-                            almacenarIteracion += "Día #" + (i + 1) + ":\n N/A \n";
+                            almacenarIteracion += "-" + "           ";
+                            if (i == 4) {
+                                almacenarIteracion += "\n";
+                            }
                         } else {
-                            almacenarIteracion += "Día #" + (i + 1) + "\n";
-                            almacenarIteracion += "Desarrollador: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getDesarrollador().getSiglasDesarrollador() + "-" + "ID requerimiento: "
-                                    + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getRequerimiento().getIdRequerimiento() + "\n";
+//                            almacenarIteracion += "Día #" + (i + 1) + "\n";
+                            almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                    + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getRequerimiento().getIdRequerimiento() + "            ";
                             if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.size() == 2) {
-                                almacenarIteracion += "Desarrollador: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "ID requerimiento: "
-                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() + "\n";
+                                almacenarIteracion += "\n           "+ "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() + "            ";
                             }
                             if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.size() == 3) {
-                                almacenarIteracion += "Desarrollador: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "ID requerimiento: "
-                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() + "\n";
-                                almacenarIteracion += "Desarrollador: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getDesarrollador().getSiglasDesarrollador() + "-" + "ID requerimiento: "
-                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getRequerimiento().getIdRequerimiento() + "\n";
+                                almacenarIteracion += "\n           " + "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() +"         ";
+                                almacenarIteracion += "\n           " + "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getRequerimiento().getIdRequerimiento() + "            ";
                             }
-
+                            if (i == 4) {
+                                almacenarIteracion += "\n";
+                            }
                         }
                     }
                 }
             }
-
         }
 
-        JOptionPane.showMessageDialog(null, almacenar);
-        JOptionPane.showMessageDialog(null, almacenarIteracion);
+        JOptionPane.showMessageDialog(
+                null, almacenar);
+        JOptionPane.showMessageDialog(
+                null, almacenarIteracion);
 
-    }//PERMITE VISUALIZAR LAS ITERACIONES
+    }
+    //PERMITE VISUALIZAR LAS ITERACIONES
 
     public boolean validarListadoAsignacion(Registro iteracion, int posicion, int opcion, int dia, Objeto objeto) {
         boolean lleno = false;
@@ -462,10 +454,10 @@ public class Asignacion {
 
         boolean disponibles = false;
         int contador = 0;
-        int esfuerzo = objeto.getRequerimiento().getEsfuerzoNecesario();
+        int esfuerzo = objeto.getRequerimiento().getEsfuerzoNecesario() - 1;
 
         for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
-            if (opcion == objeto.getRequerimiento().getEsfuerzoNecesario() - 1 && dia > 4) {
+            if (opcion == esfuerzo && dia > 4) {
                 contador = 0;
                 break;
             } else if (dia > 4) {
@@ -536,8 +528,8 @@ public class Asignacion {
         String mostrarDesarrolladores = "";
         String mostrarRequerimientos = "";
         String texto = "";
-        ArrayList<Desarrollador> almacenarDesarrolladores = new ArrayList();
-        ArrayList<Requerimiento> almacenarRequerimientos = new ArrayList();
+        ArrayList<Desarrollador> almacenarDesarrolladoresTemp = new ArrayList();
+        ArrayList<Requerimiento> almacenarRequerimientosTemp = new ArrayList();
 
         while (validar == true) {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(null, iteracion.leerIteracion() + "\nIngrese el ID de la iteración deseada: "));
@@ -556,104 +548,73 @@ public class Asignacion {
 
         if (existe == true) { //validacion para obtener los requerimientos y desarrolladores de la iteracion
             for (int i = 0; i < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); i++) {
+                for (int j = 0; j < 5; j++) { //Arreglo que almacena todos los desarrolladores y requerimientos que hay en la iteracion
+                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j] != null) {
+                        almacenarDesarrolladoresTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador());
+                        almacenarRequerimientosTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento());
+                        if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
+                            almacenarDesarrolladoresTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
+                            almacenarRequerimientosTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
+                        }
+                        if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
+                            almacenarDesarrolladoresTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
+                            almacenarDesarrolladoresTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
+                            almacenarRequerimientosTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
+                            almacenarRequerimientosTemp.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
+                        }
+
+                    }
+                }
+            }
+
+            Set<Desarrollador> setDesarrolladores = new LinkedHashSet<>(almacenarDesarrolladoresTemp);
+            Set<Requerimiento> setRequerimientos = new LinkedHashSet<>(almacenarRequerimientosTemp);
+            ArrayList<Desarrollador> almacenarDesarrolladores = new ArrayList<>(setDesarrolladores);
+            ArrayList<Requerimiento> almacenarRequerimientos = new ArrayList<>(setRequerimientos);
+
+            if (almacenarDesarrolladores.isEmpty() == false) {
+                for (int i = 0; i < almacenarDesarrolladores.size(); i++) {
+                    mostrarDesarrolladores += "Nombre del desarrollador: " + almacenarDesarrolladores.get(i).getNombreDesarrollador() + " " + almacenarDesarrolladores.get(i).getPrimerApellidoDesarrollador() + " || "
+                            + "Costo por día: " + almacenarDesarrolladores.get(i).getCostoDiario() + "\n";
+                }
+            }
+
+            if (almacenarRequerimientos.isEmpty() == false) {
+                for (int i = 0; i < almacenarRequerimientos.size(); i++) {
+                    mostrarRequerimientos += "ID: " + almacenarRequerimientos.get(i).getIdRequerimiento() + " Esfuerzo: "
+                            + almacenarRequerimientos.get(i).getEsfuerzoNecesario()+"\n";
+                    contadorRequerimientos += almacenarRequerimientos.get(i).getEsfuerzoNecesario();
+                }
+            }
+
+            for (int i = 0; i < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); i++) {
                 for (int j = 0; j < 5; j++) {
                     if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j] != null) {
-                        if (almacenarDesarrolladores.isEmpty() == false) {
-                            for (int k = 0; k < almacenarDesarrolladores.size(); k++) {
-                                if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador() != almacenarDesarrolladores.get(k)) {
-                                    almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador());
-                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador() != almacenarDesarrolladores.get(k)) {
-                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
-                                    }
-                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador() != almacenarDesarrolladores.get(k)) {
-                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
-                                    }
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador() != almacenarDesarrolladores.get(k)) {
-                                        almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
-                                    }
-                                }
-                            }
-                        } else {
-                            almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador());
-                            if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
-                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
-                            } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
-                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador());
-                                almacenarDesarrolladores.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador());
-                            }
-                        }
-                        if (almacenarRequerimientos.isEmpty() == false) {
-                            for (int k = 0; k < almacenarRequerimientos.size(); k++) {
-                                if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento() != almacenarRequerimientos.get(k)) {
-                                    almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento());
-                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento() != almacenarRequerimientos.get(k)) {
-                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
-                                    }
-                                } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento() != almacenarRequerimientos.get(k)) {
-                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
-                                    }
-                                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento() != almacenarRequerimientos.get(k)) {
-                                        almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
-                                    }
-                                }
-                            }
-                        } else {
-                            almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getRequerimiento());
-                            if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
-                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
-                            } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
-                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getRequerimiento());
-                                almacenarRequerimientos.add(iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getRequerimiento());
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-        if (almacenarDesarrolladores.isEmpty() == false) {
-            for (int i = 0; i < almacenarDesarrolladores.size(); i++) {
-                mostrarDesarrolladores += "Nombre del desarrollador: " + almacenarDesarrolladores.get(i).getNombreDesarrollador() + " " + almacenarDesarrolladores.get(i).getPrimerApellidoDesarrollador() + " || "
-                        + "Costo por día: " + almacenarDesarrolladores.get(i).getCostoDiario() + "\n";
-            }
-        }
-
-        if (almacenarRequerimientos.isEmpty() == false) {
-            for (int i = 0; i < almacenarRequerimientos.size(); i++) {
-                mostrarRequerimientos += "ID: " + almacenarRequerimientos.get(i).getIdRequerimiento() + " Esfuerzo: "
-                        + almacenarRequerimientos.get(i).getEsfuerzoNecesario();
-                contadorRequerimientos += almacenarRequerimientos.get(i).getEsfuerzoNecesario();
-            }
-        }
-
-        for (int i = 0; i < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); i++) {
-            for (int j = 0; j < 5; j++) {
-                if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j] != null) {
-                    total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador().getCostoDiario();
-                    if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
-                        total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador().getCostoDiario();
-                    } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
-                        {
+                        total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(0).getDesarrollador().getCostoDiario();
+                        if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 2) {
                             total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador().getCostoDiario();
-                            total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador().getCostoDiario();
+                        } else if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() == 3) {
+                            {
+                                total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(1).getDesarrollador().getCostoDiario();
+                                total += iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.get(2).getDesarrollador().getCostoDiario();
+                            }
                         }
                     }
                 }
+
             }
+            texto = "REPORTE MENSUAL DE LA ITERACIÓN\n--------------------------------------------------------------------------\n\n"
+                    + "Cantidad de requerimientos asignados: " + almacenarRequerimientos.size() + "\n"
+                    + "Información de los requerimientos \n" + mostrarRequerimientos + "\n"
+                    + "--------------------------------------------------------------------------\n\n"
+                    + "Cantidad de desarrolladores asignados: " + almacenarDesarrolladores.size() + "\n"
+                    + "Información de los desarrollaadores\n" + mostrarDesarrolladores + "\n"
+                    + "--------------------------------------------------------------------------\n\n"
+                    + "Suma de esfuerzo de los requerimientos: " + contadorRequerimientos + "\n"
+                    + "Costo de la iteración: " + ((total * 0.13) + total);
+            JOptionPane.showMessageDialog(null, texto);
 
         }
-        texto = "REPORTE MENSUAL DE LA ITERACIÓN\n--------------------------------------------------------------------------\n\n"
-                + "Cantidad de requerimientos asignados: " + almacenarRequerimientos.size() + "\n"
-                + "Información de los requerimientos\n---------------------------------------------------\n" + mostrarRequerimientos + "\n"
-                + "Cantidad de desarrolladores asignados: " + almacenarDesarrolladores.size() + "\n"
-                + "Información de los desarrollaadores\n-----------------------------------------------------------------\n"
-                + "Suma de esfuerzo de los requerimientos: " + contadorRequerimientos + "\n"
-                + "Costo de la iteración: " + ((total * 0.13) + total);
-        JOptionPane.showMessageDialog(null, texto);
-
     }
 }
+
