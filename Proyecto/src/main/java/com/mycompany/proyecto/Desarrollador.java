@@ -9,18 +9,15 @@ import javax.swing.JOptionPane;
 
 public class Desarrollador {
     
-    //AT
-    private int idDesarrollador;                    // ID (0021)
-    private String primerNombreDesarrollador;       // Nombre(Pablo)
-    private String primerApellidoDesarrollador;     // Apellido 1 (Mendez)
-    private String segundoApellidoDesarrollador;    // Apellodp 2 (Hidalgo)
-    private String nombreDesarrollador;             // Nombre completo (Pablo Mendez Hidalgo) *Auto
-    private String siglasDesarrollador;             // Iniciales (PMH) *Auto
-    private int costoDiario;                        // Costo por dia (no se para que es esto /Ver enunciado del caso)
-    
-    //Class
-    private int nuevo = 0;                          // Validar while
-    public static int numeroDesarrolladores = 3;     // Contador (Max 5.)
+    //Aributos del objeto desarrollador
+    private int idDesarrollador;                    
+    private String primerNombreDesarrollador;       
+    private String primerApellidoDesarrollador;     
+    private String segundoApellidoDesarrollador;    
+    private String nombreDesarrollador;             
+    private String siglasDesarrollador;             
+    private int costoDiario;                                               
+    public static int numeroDesarrolladores = 3;  //Contador para la cantidad de desarrolladores
 
     
     //Constructor
@@ -42,7 +39,8 @@ public class Desarrollador {
         this.primerApellidoDesarrollador = JOptionPane.showInputDialog("Ingrese el primer apellido del desarrollador: ");
         this.segundoApellidoDesarrollador = JOptionPane.showInputDialog("Ingrese el segundo apellido del desarrollador: ");
         this.nombreDesarrollador = (this.primerNombreDesarrollador+" "+this.primerApellidoDesarrollador+" "+ this.segundoApellidoDesarrollador);
-        this.siglasDesarrollador = (this.primerNombreDesarrollador.substring(0, 1).toUpperCase()+this.primerApellidoDesarrollador.substring(0, 1).toUpperCase()+ this.segundoApellidoDesarrollador.substring(0, 1).toUpperCase());
+        this.siglasDesarrollador = (this.primerNombreDesarrollador.substring(0, 1).toUpperCase()+this.primerApellidoDesarrollador.substring(0, 1).toUpperCase()+ 
+                this.segundoApellidoDesarrollador.substring(0, 1).toUpperCase()); //Crea las siglas del desarrollador automáticamente
         this.costoDiario = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el costo por dia del desarrollador: "));     // PENDIN
     }
    
@@ -94,14 +92,6 @@ public class Desarrollador {
 
     public void setCostoDiario(int costoDiario) {
         this.costoDiario = costoDiario;
-    }
-
-    public int getNuevo() {
-        return nuevo;
-    }
-
-    public void setNuevo(int nuevo) {
-        this.nuevo = nuevo;
     }
 
     public static int getNumeroDesarrolladores() {

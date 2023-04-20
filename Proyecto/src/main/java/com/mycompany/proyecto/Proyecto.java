@@ -1,7 +1,6 @@
 package com.mycompany.proyecto;
 
 import java.awt.HeadlessException;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,13 +11,16 @@ public class Proyecto {
 
     public static void main(String[] args) {
 
-        //Creacion instancias 
+        //Se crean las instancias para el llamado de los objetos en el menú
+        
         Registro requerimientos = new Registro();
         Registro iteracion = new Registro();
         Registro desarrollador = new Registro();
         Asignacion asignar = new Asignacion();
         Objeto objeto = new Objeto();
-        //Datos precargados
+        
+        //Se realiza la precarga de requerimientos, desarrolladores e iteraciones
+        
         Requerimiento requerimiento1 = new Requerimiento(1, "Req1", 3, Estado.Pendiente);
         Requerimiento requerimiento2 = new Requerimiento(2, "Req2", 2, Estado.Pendiente);
         Requerimiento requerimiento3 = new Requerimiento(3, "Req3", 4, Estado.Pendiente);
@@ -45,7 +47,7 @@ public class Proyecto {
         iteracion.listadoIteraciones.add(iteracion1);
         iteracion.listadoIteraciones.add(iteracion2);
 
-        //Llamada menu principal
+        //Se llama al menú principal y se le pasan como argumentos los objetos necesarias
         menu(requerimientos, iteracion, desarrollador, asignar, objeto);
 
     }
@@ -73,8 +75,8 @@ public class Proyecto {
                         int nuevo = 0;
                         while (nuevo == 0) {
                             if (Desarrollador.numeroDesarrolladores < 5) { //Contador publico en la clase desarrollador
-                                desarrollador.agregarDesarrollador();
-                                Desarrollador.numeroDesarrolladores++;
+                                desarrollador.agregarDesarrollador(); //llamada al método de agregar desarrollador
+                                Desarrollador.numeroDesarrolladores++; //si el desarrollador se agregó correctamente, se suma 1
                             } else {
                                 JOptionPane.showMessageDialog(null, "Lo sentimos, no se pueden agregar más desarrolladores");
                                 nuevo = 1;
@@ -99,8 +101,8 @@ public class Proyecto {
                         int nuevo = 0;
                         while (nuevo == 0) {
                             if (Requerimiento.numeroRequerimientos < 50) {
-                                requerimientos.agregarRequerimiento();
-                                Requerimiento.numeroRequerimientos++;
+                                requerimientos.agregarRequerimiento(); //llamada al metodo para agregar requerimientos
+                                Requerimiento.numeroRequerimientos++; //aumenta el contador, si el registro se realiza correctamente
                             } else {
                                 JOptionPane.showMessageDialog(null, "Lo sentimos, no se pueden agregar más requerimientos");
                                 nuevo = 1;
@@ -149,7 +151,6 @@ public class Proyecto {
                     }
                     case 4 -> {
                         asignar.creacionObjeto(requerimientos, iteracion, desarrollador);
-//                        asignar.asignarObjetoIteracion(asignar, iteracion);
                         continuar = JOptionPane.showConfirmDialog(null, "Desea regresar al menú principal? ", "WARNING", JOptionPane.YES_NO_OPTION);
                         if (continuar == JOptionPane.YES_OPTION) {
                             valido = "x";
@@ -191,6 +192,8 @@ public class Proyecto {
         }
     }
 
+    
+    //MENU PARA LA VISUALIZACION DE REPORTES
       public static void menuReportes(Registro requerimientos, Registro iteracion, Registro desarrollador, Asignacion asignar) {
         String texto;
         String valido = "x";

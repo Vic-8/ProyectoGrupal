@@ -12,7 +12,10 @@ public class Iteracion {
     private int cantidadSemanas;
     private Estado estado;
     public static int numeroIteraciones = 2; //usada como contador
-    private Asignacion[][] arrDias; //cambiar a tipo asignacion
+    private Asignacion[][] arrDias; //Array para almacenar los objetos de las iteraciones
+    
+    
+    //constructores
     
     public Iteracion() {
     }
@@ -24,10 +27,12 @@ public class Iteracion {
         this.arrDias = new Asignacion[cantidadSemanas][5];
     }
 
+    
+    //Metodo para la creación de la iteración
     public void registroIteracion() {
         this.idIteracion = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el ID de iteración: "));
         this.cantidadSemanas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de semanas: "));
-        this.arrDias = new Asignacion[cantidadSemanas][5];
+        this.arrDias = new Asignacion[cantidadSemanas][5]; //crea el arreglo automáticamente según la cantidad de semanas
         estado = Estado.En_Proceso;
 
     }

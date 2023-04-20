@@ -1,13 +1,14 @@
 
 package com.mycompany.proyecto;
 
-import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 
 //AUTORES ARIANA FALLAS Y JOSE PABLO RAYGADA
 
 public class Requerimiento {
+
 //Declaracion de atributos
 
     private int idRequerimiento;

@@ -4,9 +4,8 @@
  */
 package com.mycompany.proyecto;
 
-import java.awt.HeadlessException;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.swing.JOptionPane;
@@ -22,15 +21,14 @@ public class Asignacion {
 
     //Llamado de otras clases
     Registro registro = new Registro();
-    //ArrayList<Objeto> listadoAsignacion = new ArrayList();
-    ArrayList<Objeto> listadoAsignacion = new ArrayList();
+    ArrayList<Objeto> listadoAsignacion = new ArrayList(); //array para almacenar los objetos
 
     //Creacion de la matriz
     //Creacion del objeto complejo
     public void creacionObjeto(Registro requerimiento, Registro iteracion, Registro desarrollador) {
 
         //variables
-        Objeto objeto = new Objeto();
+        Objeto objeto = new Objeto(); //crea el objeto que se almacenará en el array
         String valido = "x";
         int opcion = 0;
         int continuar = 1;
@@ -56,8 +54,7 @@ public class Asignacion {
                     existe = true;
                     if (requerimiento.listadoRequerimientos.get(i).getEstado() == Estado.Pendiente) { //VALIDA EL ESTADO DEL REQUERIMIENTO
                         objeto.setRequerimiento(requerimiento.listadoRequerimientos.get(i));
-//                        requerimiento.listadoRequerimientos.get(i).setEstado(Estado.En_Desarollo);
-                        posicionRequerimiento = i;
+                        posicionRequerimiento = i; //almacena posicion del requerimiento
                         validarRequerimiento = true;
                         break;
                     } else {
@@ -82,9 +79,9 @@ public class Asignacion {
                 for (int i = 0; i < iteracion.listadoIteraciones.size(); i++) {
                     if (opcion == iteracion.listadoIteraciones.get(i).getIdIteracion()) {
                         existe = false;
-                        if (iteracion.listadoIteraciones.get(i).getEstado() != Estado.Finalizado) {
+                        if (iteracion.listadoIteraciones.get(i).getEstado() != Estado.Finalizado) { //verifica que el estado de la iteracion sea diferente a finalizado
                             existe = false;
-                            semanas = iteracion.listadoIteraciones.get(i).getCantidadaSemanas();
+                            semanas = iteracion.listadoIteraciones.get(i).getCantidadaSemanas(); //obtiene la cantidad de semanas de la iteracion
                             posicionIteracion = i;
                             validarDesarrollador = false;
                             break;
@@ -104,7 +101,7 @@ public class Asignacion {
        
                 }
 
-                if (validarDesarrollador == false) {
+                if (validarDesarrollador == false) { //almacena las semanas de la iteracion seleccionada para mostrarla
                     validarRequerimiento = true;
                     String almacenar = "";
                     for (int i = 0; i < semanas; i++) {
@@ -113,17 +110,18 @@ public class Asignacion {
                     while (valido == "x") {
                         opcion = Integer.parseInt(JOptionPane.showInputDialog("Seleccione la semana en la que desea iniciar el requerimiento: \n" + almacenar));
                         if (opcion <= semanas) {
-                            dia = Integer.parseInt(JOptionPane.showInputDialog("Seleccione el dia en el que desea iniciar el requerimiento: \n0. Lunes \n1. Martes \n2. Miércoles \n3. Jueves \n4. Viernes"));
-                            asignarDesarrollador(desarrollador, objeto);
-                            if (validarDiasDisponibles(iteracion, posicionIteracion, opcion, dia, objeto) >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                if (verificarDias(iteracion, posicionIteracion, opcion, dia, objeto) >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
-                                    if (validarListadoAsignacion(iteracion, posicionIteracion, opcion, dia, objeto) == false) {
-                                        esfuerzoNecesario = dia + objeto.getRequerimiento().getEsfuerzoNecesario();
-                                        if (validarDias(iteracion, objeto, dia, opcion, posicionIteracion) == true) {
+                            dia = Integer.parseInt(JOptionPane.showInputDialog("Seleccione el dia en el que desea iniciar el requerimiento: "
+                                    + "\n0. Lunes \n1. Martes \n2. Miércoles \n3. Jueves \n4. Viernes"));
+                            asignarDesarrollador(desarrollador, objeto); //realiza el proceso de asignacion de desarrollador y lo almacena
+                            if (validarDiasDisponibles(iteracion, posicionIteracion, opcion, dia, objeto) >= objeto.getRequerimiento().getEsfuerzoNecesario()) {    //Valida y cuenta si en toda iteracion hay suficientes dias para almacenar el requerimiento, lo compara contra el esfuerzo del req
+                                if (verificarDias(iteracion, posicionIteracion, opcion, dia, objeto) >= objeto.getRequerimiento().getEsfuerzoNecesario()) { //Verifica que desde el dia de inicio hasta el final del req esten disponibles los dias
+                                    if (validarListadoAsignacion(iteracion, posicionIteracion, opcion, dia, objeto) == false) { //valida si los dias tienen 3 o menos requerimientos asignados, de lo contrario no se asigna
+                                        esfuerzoNecesario = dia + objeto.getRequerimiento().getEsfuerzoNecesario(); 
+                                        if (validarDiasVacios(iteracion, objeto, dia, opcion, posicionIteracion) == true) { //valida si desde el dia de inicio hasta el final, los dias estan vacios o tienen algo asignado
                                             contadorElementos = 0;
-                                            if (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
+                                            if (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) { //valida si el dia seleccionado es menor al esfuerzo del req
                                                 for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
-                                                    if (dia > 4) {
+                                                    if (dia > 4) { //si el dia es mayor a 4, se suma 1 a las semanas y el dia se inicializa en 0
                                                         opcion++;
                                                         dia = 0;
                                                     }
@@ -141,25 +139,26 @@ public class Asignacion {
                                                         esfuerzoNecesario = esfuerzoNecesario - dia;
                                                         dia = 0;
                                                     }
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
-                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(contadorElementos, objeto);
+                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion(); //crea una nueva asignacion
+                                                    iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(contadorElementos, objeto); //agrega el objeto a la primera posicion del array, porque el dia esta vacio
 
                                                     dia++;
                                                 }
-                                                requerimiento.listadoRequerimientos.get(posicionRequerimiento).setEstado(Estado.En_Desarollo);
+                                                requerimiento.listadoRequerimientos.get(posicionRequerimiento).setEstado(Estado.En_Desarollo); //cambia el estado del requerimiento
                                             }
-                                            contadorElementos++;
+                                            contadorElementos++; 
                                             valido = "j";
                                             validarDesarrollador = false;
                                             validarRequerimiento = true;
-                                            //validar = false;
-                                        } else {
+                                          
+                                        } else { //si el dia seleccionado no esta vacio
                                             diaInicial = dia;
                                             for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
                                                 if (diaInicial > 4) {
                                                     opcion++;
                                                     diaInicial = 0;
                                                 }
+                                                //los siguientes IF son para validar si el desarrollador ya fue asignado, mediante un boolean valida
                                                 if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial].listadoAsignacion.get(0).getDesarrollador() != objeto.getDesarrollador()
                                                         || iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][diaInicial] == null) {
                                                     asignado = false;
@@ -188,26 +187,26 @@ public class Asignacion {
 
                                             diaInicial++;
 
-                                            if (asignado == false) {
+                                            if (asignado == false) { //si el desarrollador no esta asignado, procede a asignarlo en nuevo espacio del array
                                                 if (dia < objeto.getRequerimiento().getEsfuerzoNecesario()) {
                                                     for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
                                                         if (dia > 4) {
                                                             opcion++;
                                                             dia = 0;
                                                         }
-                                                        if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] == null) {
+                                                        if (iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] == null) { //si el dia esta vacio, me lo asigna en la primera posicion
                                                             iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia] = new Asignacion();
                                                             iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
                                                         } else {
-                                                            iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto);
+                                                            iteracion.listadoIteraciones.get(posicionIteracion).getArrDias()[opcion][dia].listadoAsignacion.add(objeto); //si ya tiene otros reqs asignados, me lo agrega en la siguiente posicion
                                                         }
                                                         dia++;
                                                     }
-                                                    requerimiento.listadoRequerimientos.get(posicionRequerimiento).setEstado(Estado.En_Desarollo);
+                                                    requerimiento.listadoRequerimientos.get(posicionRequerimiento).setEstado(Estado.En_Desarollo); //cambia el estado del req
                                                     valido = "j";
                                                     validarDesarrollador = false;
                                                     validarRequerimiento = true;
-                                                } else if (dia >= objeto.getRequerimiento().getEsfuerzoNecesario()) {
+                                                } else if (dia >= objeto.getRequerimiento().getEsfuerzoNecesario()) { 
                                                     for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
                                                         if (dia > 4) {
                                                             opcion++;
@@ -243,10 +242,12 @@ public class Asignacion {
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Lo sentimos, no hay espacio disponible desde el dia de inicio hasta el día final.");
                                     validarDesarrollador = true;
+                                    valido="j";
                                 }
                             } else {
                                 JOptionPane.showMessageDialog(null, "Lo sentimos, no hay espacio suficiente para asignar el requerimiento. Por favor seleccione otra iteración.");
                                 validarDesarrollador = true;
+                                valido="j";
                             }
                         }
                     }
@@ -256,12 +257,16 @@ public class Asignacion {
     }
 
     public void asignarDesarrollador(Registro desarrollador, Objeto objeto) {
+        //metodo usado para asignar el desarollador
+        
+        
         String valido = "x";
         int opcion = 0;
         while (valido == "x") {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Seleccione el desarrollador: \n" + desarrollador.leerDesarrollador()));
             for (int i = 0; i < desarrollador.listadoDesarrolladores.size(); i++) {
-                if (opcion == desarrollador.listadoDesarrolladores.get(i).getIdDesarrollador()) {
+                if (opcion == desarrollador.listadoDesarrolladores.get(i).getIdDesarrollador()) { //valida que el desarrollador exista
+                    
                     objeto.setDesarrollador(desarrollador.listadoDesarrolladores.get(i)); //setea las siglas del desarrollador en el objeto
                     valido = "j";
                     break;
@@ -272,12 +277,15 @@ public class Asignacion {
                 JOptionPane.showMessageDialog(null, "No existe ningún desarrollador asociado a ese ID");
             }
         }
-    }//PERMITE ASIGNAR EL DESARROLLADOR
+    }
 
-    public boolean validarDias(Registro iteracion, Objeto objeto, int dia, int opcion, int posicion) {
+    public boolean validarDiasVacios(Registro iteracion, Objeto objeto, int dia, int opcion, int posicion) {
+        //este metodo verifica que desde el dia del inicio al final del req los dias esten vacios o no, dependendiendo de eso regresa
+        //el boolean para indicar como proceder
+        
         boolean vacio = false;
         for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
-            if (dia > 4) {
+            if (dia > 4) { //si el dia es mayor a 4, es decir, si es viernes y aun quedan dias pendientes, debe pasar al lunes de la otra semana
                 opcion++;
                 dia = 0;
             }
@@ -290,7 +298,7 @@ public class Asignacion {
             dia++;
         }
         return vacio;
-    }//VALIDA SI EL DIA ESTA VACIO O NO
+    }
 
     public boolean validarDesarrollador(Registro iteracion, Objeto objeto, int dia, int opcion, int posicion) {
         boolean asignado = false;
@@ -316,8 +324,8 @@ public class Asignacion {
         boolean existe = false;
         String almacenarIteracion = "";
         String almacenar = "";
-        ArrayList<Desarrollador> almacenarDesarrolladoresTemp = new ArrayList();
-        ArrayList<Requerimiento> almacenarRequerimientosTemp = new ArrayList();
+        ArrayList<Desarrollador> almacenarDesarrolladoresTemp = new ArrayList(); //lista de almacenamiento temporal
+        ArrayList<Requerimiento> almacenarRequerimientosTemp = new ArrayList(); //lista de almacenamiento temporal
 
         while (validar == true) {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(null, iteracion.leerIteracion() + "\nIngrese el ID de la iteración deseada: "));
@@ -354,9 +362,11 @@ public class Asignacion {
                     }
                 }
             }
-
+            
+            //estos metodos me ayudan a obtener la lista de desarrolladores que no esten repetidos
             Set<Desarrollador> setDesarrolladores = new LinkedHashSet<>(almacenarDesarrolladoresTemp);
             Set<Requerimiento> setRequerimientos = new LinkedHashSet<>(almacenarRequerimientosTemp);
+            //agregamos los desarrolladores que no estan repetidos a una nueva lista
             ArrayList<Desarrollador> almacenarDesarrolladores = new ArrayList<>(setDesarrolladores);
             ArrayList<Requerimiento> almacenarRequerimientos = new ArrayList<>(setRequerimientos);
 
@@ -385,7 +395,6 @@ public class Asignacion {
                         if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i] == null) {
                             almacenarIteracion += "---" + "\n";
                         } else {
-//                            almacenarIteracion += "Día #" + (i + 1) + "\n";
                             almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
                                     + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getRequerimiento().getIdRequerimiento()+"\n";
                             if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.size() == 2) {
@@ -416,20 +425,29 @@ public class Asignacion {
     //PERMITE VISUALIZAR LAS ITERACIONES
 
     public boolean validarListadoAsignacion(Registro iteracion, int posicion, int opcion, int dia, Objeto objeto) {
+        //valida si los dias seleccionados no tienen mas de 3 requerimientos asignados, de lo contrario, no deja asignar
         boolean lleno = false;
-//        for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
+        for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
+            if (dia>4){
+                opcion++;
+                dia=0;
+            }
         if (iteracion.listadoIteraciones.get(posicion).getArrDias()[opcion][dia] != null) {
             if (iteracion.listadoIteraciones.get(posicion).getArrDias()[opcion][dia].listadoAsignacion.size() < 3) {
                 lleno = false;
             } else {
                 lleno = true;
+                break;
             }
 
         }
-//            dia++;
+            dia++;
 
-        return lleno;
+        
     }
+        return lleno;
+   }
+
 //VALIDA SI EL DIA NO TIENE MÁS DE 3 OBJETOS YA ASIGNADOS
 
     public int validarDiasDisponibles(Registro iteracion, int posicion, int opcion, int dia, Objeto objeto) {
@@ -438,7 +456,7 @@ public class Asignacion {
         int contador = 0;
         int esfuerzo = objeto.getRequerimiento().getEsfuerzoNecesario();
 
-//Validar por ejemplo si elijen 
+//Cuenta la cantidad de dias vacios o que tienen menos de 3 reqs asignados y lo compara con el esfuerzo del requerimiento, para verificar si hay espacio
         for (int i = 0; i < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); i++) {
             for (int j = 0; j < 5; j++) {
                 if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j] == null || iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j].listadoAsignacion.size() < 3) {
@@ -451,7 +469,8 @@ public class Asignacion {
     } //VALIDA SI LA ITERACION ES LO SUFICIENTEMENTE GRANDE PARA ALMACENAR EL REQUERIMIENTO
 
     public int verificarDias(Registro iteracion, int posicion, int opcion, int dia, Objeto objeto) {
-
+        //Con este metodo se valida que haya dias disponibles desde el inicio del req hasta el final, ademas valida que si eligen el viernes de la ultima semana de la iteracion
+        // y si aun quedan dias por asignar me envie un error
         boolean disponibles = false;
         int contador = 0;
         int esfuerzo = iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas() - 1;
@@ -475,6 +494,10 @@ public class Asignacion {
     }
 
     public void cierreIteracion(Registro iteracion) {
+        
+        //Este metodo es para cerrar la iteracion, basicamente selecciona la iteracion que desea cerrar y recorre todos los requerimientos que tenga la iteracion y le cambia el 
+        //estado
+        
         int opcion = 0;
         boolean validar = true;
         boolean existe = false;
@@ -519,6 +542,9 @@ public class Asignacion {
     }
 
     public void reporteMensual(Registro iteracion) {
+        //este metodo es para realizar el reporte mensual
+        
+        
         int opcion = 0;
         int posicion = 0;
         int total = 0;
@@ -567,7 +593,8 @@ public class Asignacion {
                     }
                 }
             }
-
+            
+            //utilizamos los arrays para poder obtener los desarrolladores y los requerimientos, asi como obtener los costos diarios y poder sumarlos
             Set<Desarrollador> setDesarrolladores = new LinkedHashSet<>(almacenarDesarrolladoresTemp);
             Set<Requerimiento> setRequerimientos = new LinkedHashSet<>(almacenarRequerimientosTemp);
             ArrayList<Desarrollador> almacenarDesarrolladores = new ArrayList<>(setDesarrolladores);
@@ -588,6 +615,7 @@ public class Asignacion {
                 }
             }
 
+            //mediante este for, logramos obtener el costo diario, realizando la suma de cada requerimiento 
             for (int i = 0; i < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); i++) {
                 for (int j = 0; j < 5; j++) {
                     if (iteracion.listadoIteraciones.get(posicion).getArrDias()[i][j] != null) {

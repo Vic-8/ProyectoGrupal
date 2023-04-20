@@ -9,9 +9,14 @@ package com.mycompany.proyecto;
  * @author Ariana
  */
 public class Objeto {
+    
+    //Esta es la clase para crear el objeto que se almacena en el array de las iteraciones
+    
     private Desarrollador desarrollador; // tipo Desarrollador 
     private Requerimiento requerimiento; // tipo requerimiento
 
+    //Constructores
+    
     public Objeto() {
     }
 
@@ -20,6 +25,8 @@ public class Objeto {
         this.requerimiento = requerimiento;
     }
 
+    
+    //GET & SET
     public Desarrollador getDesarrollador() {
         return desarrollador;
     }
