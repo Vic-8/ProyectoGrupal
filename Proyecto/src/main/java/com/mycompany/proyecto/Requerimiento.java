@@ -14,7 +14,7 @@ public class Requerimiento {
     private String nombreRequerimiento;
     private int esfuerzoNecesario;
     private int nuevo = 0; //usada para validar el while
-    public static int numeroRequerimientos = 4; //usada como contador
+    public static int numeroRequerimientos = 7; //usada como contador
     private Estado estado;
 
 

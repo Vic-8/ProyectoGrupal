@@ -20,7 +20,7 @@ public class Desarrollador {
     
     //Class
     private int nuevo = 0;                          // Validar while
-    public static int numeroDesarrolladores = 2;     // Contador (Max 5.)
+    public static int numeroDesarrolladores = 3;     // Contador (Max 5.)
 
     
     //Constructor

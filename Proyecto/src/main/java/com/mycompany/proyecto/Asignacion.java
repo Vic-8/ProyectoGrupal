@@ -90,9 +90,11 @@ public class Asignacion {
                             break;
                         } else {
                             JOptionPane.showMessageDialog(null, "Lo sentimos, la iteración seleccionada ya ha sido cerrada");
-                            validarDesarrollador = false;
+                            validarDesarrollador = true;
                             validarRequerimiento = false;
+                            valido="j";
                             objeto.getRequerimiento().setEstado(Estado.Pendiente);
+                            break;
                         }
                     }
                 }
@@ -375,31 +377,29 @@ public class Asignacion {
             }
 
             if (existe == true) {
-                almacenarIteracion += "         "+"Día 1" + "           Día 2" + "          Día 3" + "          Día 4"  + "         Día 5\n";
                 for (int j = 0; j < iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas(); j++) { //Recorre filas
-                    almacenarIteracion += "Semana #" + (j + 1) + "          ";
+                    almacenarIteracion+="-----------------------------------------------------------------------\n";
+                    almacenarIteracion += "Semana #" + (j + 1) + "\n";
                     for (int i = 0; i < 5; i++) { //Recorre columnas
+                        almacenarIteracion+="Día #"+(i+1)+"\n";
                         if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i] == null) {
-                            almacenarIteracion += "-" + "           ";
-                            if (i == 4) {
-                                almacenarIteracion += "\n";
-                            }
+                            almacenarIteracion += "---" + "\n";
                         } else {
 //                            almacenarIteracion += "Día #" + (i + 1) + "\n";
                             almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
-                                    + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getRequerimiento().getIdRequerimiento() + "            ";
+                                    + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getRequerimiento().getIdRequerimiento()+"\n";
                             if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.size() == 2) {
-                                almacenarIteracion += "\n           "+ "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
-                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() + "            ";
+                                almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() +"\n";
                             }
                             if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.size() == 3) {
-                                almacenarIteracion += "\n           " + "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
-                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() +"         ";
-                                almacenarIteracion += "\n           " + "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
-                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getRequerimiento().getIdRequerimiento() + "            ";
+                                almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() +"\n";
+                                almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                        + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getRequerimiento().getIdRequerimiento() +"\n";
                             }
-                            if (i == 4) {
-                                almacenarIteracion += "\n";
+                            if (i>4){
+                            almacenarIteracion+="-----------------------------------------------------------------------\n";
                             }
                         }
                     }
@@ -454,13 +454,14 @@ public class Asignacion {
 
         boolean disponibles = false;
         int contador = 0;
-        int esfuerzo = objeto.getRequerimiento().getEsfuerzoNecesario() - 1;
+        int esfuerzo = iteracion.listadoIteraciones.get(posicion).getCantidadaSemanas() - 1;
 
         for (int i = 0; i < objeto.getRequerimiento().getEsfuerzoNecesario(); i++) {
             if (opcion == esfuerzo && dia > 4) {
                 contador = 0;
                 break;
-            } else if (dia > 4) {
+            } 
+            if (dia > 4) {
                 opcion++;
                 dia = 0;
             }
@@ -574,7 +575,7 @@ public class Asignacion {
 
             if (almacenarDesarrolladores.isEmpty() == false) {
                 for (int i = 0; i < almacenarDesarrolladores.size(); i++) {
-                    mostrarDesarrolladores += "Nombre del desarrollador: " + almacenarDesarrolladores.get(i).getNombreDesarrollador() + " " + almacenarDesarrolladores.get(i).getPrimerApellidoDesarrollador() + " || "
+                    mostrarDesarrolladores += "Nombre: " + almacenarDesarrolladores.get(i).getNombreDesarrollador() + " || "
                             + "Costo por día: " + almacenarDesarrolladores.get(i).getCostoDiario() + "\n";
                 }
             }

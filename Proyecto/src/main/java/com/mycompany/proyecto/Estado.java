@@ -14,3 +14,5 @@ public enum Estado {
     Finalizado,
     En_Desarollo
 }
+
+//Esta es la clase con el estado, sirve para el estado de los requerimientos e iteraciones.
