@@ -22,6 +22,7 @@ public class Registro {
 
     
     public void agregarRequerimiento() {
+        
         Requerimiento requerimiento = new Requerimiento();
         requerimiento.registroRequerimiento();
         for (int i = 0; i < listadoRequerimientos.size(); i++) {
@@ -82,14 +83,15 @@ public class Registro {
        public void agregarDesarrollador() {
         Desarrollador desarrollador = new Desarrollador();
         desarrollador.registroDesarrollador();
-        desarrollador.setIdDesarrollador((int)(Math.random()*1000)); //genera el id automatico al desarrollador
-        for (int i = 0; i < listadoDesarrolladores.size(); i++) { //valida si el ID del desarrollador ya existe
-            if (desarrollador.getIdDesarrollador()== listadoDesarrolladores.get(i).getIdDesarrollador()) {
-                while (desarrollador.getIdDesarrollador()== listadoDesarrolladores.get(i).getIdDesarrollador()) {
-                    desarrollador.setIdDesarrollador((int)(Math.random()*1000));
-                }
-            }
-        }
+        desarrollador.setIdDesarrollador(Desarrollador.contadorID++); //genera el id automatico al desarrollador
+        
+//        for (int i = 0; i < listadoDesarrolladores.size(); i++) { //valida si el ID del desarrollador ya existe
+//            if (desarrollador.getIdDesarrollador()== listadoDesarrolladores.get(i).getIdDesarrollador()) {
+//                while (desarrollador.getIdDesarrollador()== listadoDesarrolladores.get(i).getIdDesarrollador()) {
+//                    desarrollador.setIdDesarrollador((int)(Math.random()*1000));
+//                }
+//            }
+//        }
         
         //agrega el desarrollador al array
         
