@@ -203,7 +203,7 @@ public class Proyecto {
                 + "\n--------------------------------\n"
                 + "(1)=> Reporte de los requerimientos"
                 + "\n(2)=> Reporte de los desarrolladores"
-                + "\n(3)=> Registro de iteraciones"
+                + "\n(3)=> Reporte de iteraciones"
                 + "\n(4)=> Reporte visual de una iteración"
                 + "\n(5)=> Reporte de resumen de iteraciones"
                 + "\n(6)=> Regresar al menú principal"

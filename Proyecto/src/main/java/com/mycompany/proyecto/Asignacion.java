@@ -395,16 +395,16 @@ public class Asignacion {
                         if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i] == null) {
                             almacenarIteracion += "---" + "\n";
                         } else {
-                            almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                            almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getDesarrollador().getSiglasDesarrollador() + "  -  " + "RQ: "
                                     + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(0).getRequerimiento().getIdRequerimiento()+"\n";
                             if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.size() == 2) {
-                                almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "  -  " + "RQ: "
                                         + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() +"\n";
                             }
                             if (iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.size() == 3) {
-                                almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getDesarrollador().getSiglasDesarrollador() + "  -  " + "RQ: "
                                         + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(1).getRequerimiento().getIdRequerimiento() +"\n";
-                                almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getDesarrollador().getSiglasDesarrollador() + "-" + "RQ: "
+                                almacenarIteracion += "Des: " + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getDesarrollador().getSiglasDesarrollador() + "  -  " + "RQ: "
                                         + iteracion.listadoIteraciones.get(posicion).getArrDias()[j][i].listadoAsignacion.get(2).getRequerimiento().getIdRequerimiento() +"\n";
                             }
                             if (i>4){
@@ -609,7 +609,7 @@ public class Asignacion {
 
             if (almacenarRequerimientos.isEmpty() == false) {
                 for (int i = 0; i < almacenarRequerimientos.size(); i++) {
-                    mostrarRequerimientos += "ID: " + almacenarRequerimientos.get(i).getIdRequerimiento() + " Esfuerzo: "
+                    mostrarRequerimientos += "ID: " + almacenarRequerimientos.get(i).getIdRequerimiento() + "     Esfuerzo: "
                             + almacenarRequerimientos.get(i).getEsfuerzoNecesario()+"\n";
                     contadorRequerimientos += almacenarRequerimientos.get(i).getEsfuerzoNecesario();
                 }
@@ -632,12 +632,12 @@ public class Asignacion {
                 }
 
             }
-            texto = "REPORTE MENSUAL DE LA ITERACIÓN\n--------------------------------------------------------------------------\n\n"
+            texto = "REPORTE RESUMEN DE LA ITERACIÓN\n--------------------------------------------------------------------------\n\n"
                     + "Cantidad de requerimientos asignados: " + almacenarRequerimientos.size() + "\n"
-                    + "Información de los requerimientos \n" + mostrarRequerimientos + "\n"
+                    + "Información de los requerimientos \n\n" + mostrarRequerimientos + "\n"
                     + "--------------------------------------------------------------------------\n\n"
                     + "Cantidad de desarrolladores asignados: " + almacenarDesarrolladores.size() + "\n"
-                    + "Información de los desarrollaadores\n" + mostrarDesarrolladores + "\n"
+                    + "Información de los desarrollaadores \n\n" + mostrarDesarrolladores + "\n"
                     + "--------------------------------------------------------------------------\n\n"
                     + "Suma de esfuerzo de los requerimientos: " + contadorRequerimientos + "\n"
                     + "Costo de la iteración: " + ((total * 0.13) + total);

@@ -83,7 +83,7 @@ public class Registro {
        public void agregarDesarrollador() {
         Desarrollador desarrollador = new Desarrollador();
         desarrollador.registroDesarrollador();
-        desarrollador.setIdDesarrollador(Desarrollador.contadorID++); //genera el id automatico al desarrollador
+//        desarrollador.setIdDesarrollador(Desarrollador.contadorID++); //genera el id automatico al desarrollador
         
 //        for (int i = 0; i < listadoDesarrolladores.size(); i++) { //valida si el ID del desarrollador ya existe
 //            if (desarrollador.getIdDesarrollador()== listadoDesarrolladores.get(i).getIdDesarrollador()) {

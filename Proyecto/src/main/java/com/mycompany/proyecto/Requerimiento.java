@@ -33,7 +33,7 @@ public class Requerimiento {
  
 //METODO PARA CREAR UN NUEVO REQUERIMIENTO
     public void registroRequerimiento() {
-        this.idRequerimiento = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de requerimiento: "));
+        this.idRequerimiento = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el ID de requerimiento: "));
         this.nombreRequerimiento = JOptionPane.showInputDialog("Ingrese el nombre del requerimiento: ");
         this.esfuerzoNecesario = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el esfuerzo necesario para realizar el requerimiento: "));
         estado = Estado.Pendiente;

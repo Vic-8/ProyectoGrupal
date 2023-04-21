@@ -16,8 +16,9 @@ public class Desarrollador {
     private String segundoApellidoDesarrollador;    
     private String nombreDesarrollador;             
     private String siglasDesarrollador;             
-    private int costoDiario;                                               
-    public static int numeroDesarrolladores = 3;  //Contador para la cantidad de desarrolladores
+    private int costoDiario;                                                
+    public static int numeroDesarrolladores = 3;  //Contador para la cantidad de desarrolladores                                             
+    public static int contadorID = 3; //Contador para los ID de desarrolladores   
 
     
     //Constructor
@@ -41,7 +42,9 @@ public class Desarrollador {
         this.nombreDesarrollador = (this.primerNombreDesarrollador+" "+this.primerApellidoDesarrollador+" "+ this.segundoApellidoDesarrollador);
         this.siglasDesarrollador = (this.primerNombreDesarrollador.substring(0, 1).toUpperCase()+this.primerApellidoDesarrollador.substring(0, 1).toUpperCase()+ 
                 this.segundoApellidoDesarrollador.substring(0, 1).toUpperCase()); //Crea las siglas del desarrollador automáticamente
-        this.costoDiario = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el costo por dia del desarrollador: "));     // PENDIN
+        this.costoDiario = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el costo por dia del desarrollador: "));
+        contadorID++;
+        this.idDesarrollador = contadorID;
     }
    
     
